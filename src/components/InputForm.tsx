@@ -34,7 +34,7 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
   };
 
   // Helper to update an item
-  const updateItem = (id: string, field: keyof UserInputItem, value: any) => {
+  const updateItem = (id: string, field: keyof UserInputItem, value: string | number) => {
     setProfile(prev => ({
       ...prev,
       [currentCategory]: prev[currentCategory].map(item =>
