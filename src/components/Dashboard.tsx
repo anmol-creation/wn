@@ -1,6 +1,6 @@
 
-import React from 'react';
-import type { AnalysisResult, MatchedPathway } from '../utils/analyzer';
+import React, { useState } from 'react';
+import type { AnalysisResult, MatchedPathway, UserProfile } from '../utils/analyzer';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -15,7 +15,9 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Radar, Bar, Pie, Line } from 'react-chartjs-2';
-import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap } from 'lucide-react';
+import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap, Map, FileText, LayoutDashboard } from 'lucide-react';
+import CareerMap from './CareerMap';
+import CareerSnapshot from './CareerSnapshot';
 
 ChartJS.register(
   RadialLinearScale,
@@ -32,10 +34,12 @@ ChartJS.register(
 
 interface Props {
   results: AnalysisResult;
+  profile: UserProfile;
   onReset: () => void;
 }
 
-const Dashboard: React.FC<Props> = ({ results, onReset }) => {
+const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
+  const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'snapshot'>('overview');
   const { topPathways, barChartData, pieChartData, radarChartData, gapAnalysisData } = results;
 
   // Bar Chart Config (Skill Scorecard)
@@ -153,117 +157,168 @@ const Dashboard: React.FC<Props> = ({ results, onReset }) => {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-           <h2 className="text-3xl font-bold text-gray-800">Your WhatNext Roadmap</h2>
-           <p className="text-gray-600">Based on your unique profile analysis</p>
-        </div>
-        <button
-          onClick={onReset}
-          className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
-        >
-          Start Over
-        </button>
-      </div>
-
-      {/* Visualizations Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
-        {/* Bar Chart: Skill Scorecard */}
-        <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
-                <BarChartIcon className="text-blue-600" size={20} />
-                Skill Scorecard
-            </h3>
-            <div className="flex-grow relative">
-                {barChartData.labels.length > 0 ? (
-                    <Bar data={barData} options={barOptions} />
-                ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400">No scored skills found.</div>
-                )}
-            </div>
+      {/* Header & Tabs */}
+      <div className="mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          <div>
+             <h2 className="text-3xl font-bold text-gray-800">Your WhatNext Roadmap</h2>
+             <p className="text-gray-600">Based on your unique profile analysis</p>
+          </div>
+          <button
+            onClick={onReset}
+            className="mt-4 md:mt-0 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
+          >
+            Start Over
+          </button>
         </div>
 
-        {/* Pie Chart: Category Contribution */}
-        <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
-                <PieChartIcon className="text-pink-600" size={20} />
-                Profile Strength Distribution
-            </h3>
-            <div className="flex-grow relative">
-                <Pie data={pieData} options={pieOptions} />
-            </div>
-        </div>
-
-        {/* Radar Chart: Top Monetizable Skills */}
-        <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
-                <Zap className="text-green-600" size={20} />
-                Top Monetizable Skills
-            </h3>
-             <div className="flex-grow relative">
-                {radarChartData.labels.length > 0 ? (
-                    <Radar data={radarData} options={radarOptions} />
-                ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400">No monetizable skills found.</div>
-                )}
-            </div>
-        </div>
-
-         {/* Line Chart: Gap Analysis */}
-        <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
-            <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
-                <Activity className="text-purple-600" size={20} />
-                Skill Gap Analysis (Top Pathway)
-            </h3>
-             <div className="flex-grow relative">
-                {gapAnalysisData ? (
-                    <Line data={lineData} options={lineOptions} />
-                ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400">No pathway matches to analyze.</div>
-                )}
-            </div>
+        {/* Navigation Tabs */}
+        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-full md:w-fit">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+              activeTab === 'overview' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <LayoutDashboard size={18} /> Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('map')}
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+              activeTab === 'map' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <Map size={18} /> Career Map
+          </button>
+          <button
+            onClick={() => setActiveTab('snapshot')}
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+              activeTab === 'snapshot' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            <FileText size={18} /> Snapshot
+          </button>
         </div>
       </div>
 
-      {/* Top Pathways List */}
-      <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6">Top Earning Recommendations</h3>
-
-          {topPathways.length === 0 ? (
-            <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-xl">
-              <p className="text-yellow-800">
-                We couldn't find exact matches based on your inputs. Try adding more skills or hobbies!
-              </p>
+      {/* Content Area */}
+      {activeTab === 'overview' && (
+        <>
+          {/* Visualizations Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mb-12">
+            {/* Bar Chart: Skill Scorecard */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <BarChartIcon className="text-blue-600" size={20} />
+                    Skill Scorecard
+                </h3>
+                <div className="flex-grow relative">
+                    {barChartData.labels.length > 0 ? (
+                        <Bar data={barData} options={barOptions} />
+                    ) : (
+                        <div className="h-full flex items-center justify-center text-gray-400">No scored skills found.</div>
+                    )}
+                </div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {topPathways.slice(0, 4).map((pathway, index) => (
-                    <PathwayCard key={pathway.id} pathway={pathway} rank={index + 1} />
+
+            {/* Pie Chart: Category Contribution */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <PieChartIcon className="text-pink-600" size={20} />
+                    Profile Strength Distribution
+                </h3>
+                <div className="flex-grow relative">
+                    <Pie data={pieData} options={pieOptions} />
+                </div>
+            </div>
+
+            {/* Radar Chart: Top Monetizable Skills */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <Zap className="text-green-600" size={20} />
+                    Top Monetizable Skills
+                </h3>
+                <div className="flex-grow relative">
+                    {radarChartData.labels.length > 0 ? (
+                        <Radar data={radarData} options={radarOptions} />
+                    ) : (
+                        <div className="h-full flex items-center justify-center text-gray-400">No monetizable skills found.</div>
+                    )}
+                </div>
+            </div>
+
+            {/* Line Chart: Gap Analysis */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <Activity className="text-purple-600" size={20} />
+                    Skill Gap Analysis (Top Pathway)
+                </h3>
+                <div className="flex-grow relative">
+                    {gapAnalysisData ? (
+                        <Line data={lineData} options={lineOptions} />
+                    ) : (
+                        <div className="h-full flex items-center justify-center text-gray-400">No pathway matches to analyze.</div>
+                    )}
+                </div>
+            </div>
+          </div>
+
+          {/* Top Pathways List */}
+          <div className="space-y-6">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Top Earning Recommendations</h3>
+
+              {topPathways.length === 0 ? (
+                <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-xl">
+                  <p className="text-yellow-800">
+                    We couldn't find exact matches based on your inputs. Try adding more skills or hobbies!
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {topPathways.slice(0, 4).map((pathway, index) => (
+                        <PathwayCard key={pathway.id} pathway={pathway} rank={index + 1} />
+                    ))}
+                </div>
+              )}
+          </div>
+
+          {/* Detailed Roadmap for Top 2 */}
+          {topPathways.length > 0 && (
+            <div className="mt-12">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">Action Plan</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {topPathways.slice(0, 2).map(pathway => (
+                  <div key={pathway.id} className="bg-white p-6 rounded-xl shadow border border-gray-100">
+                    <h4 className="font-bold text-lg mb-2 text-blue-800">{pathway.title} Roadmap</h4>
+
+                    <div className="mb-4">
+                      <h5 className="font-semibold text-sm text-gray-500 uppercase tracking-wider mb-2">Steps to Success</h5>
+                      <ul className="list-disc list-inside space-y-1 text-gray-700">
+                        {pathway.roadmap.map((step, i) => (
+                          <li key={i}>{step}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 ))}
+              </div>
             </div>
           )}
-      </div>
+        </>
+      )}
 
-      {/* Detailed Roadmap for Top 2 */}
-      {topPathways.length > 0 && (
-        <div className="mt-12">
-           <h3 className="text-2xl font-bold mb-6 text-gray-800">Action Plan</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             {topPathways.slice(0, 2).map(pathway => (
-               <div key={pathway.id} className="bg-white p-6 rounded-xl shadow border border-gray-100">
-                 <h4 className="font-bold text-lg mb-2 text-blue-800">{pathway.title} Roadmap</h4>
+      {activeTab === 'map' && (
+        <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-800">Interactive Career Map</h3>
+            <p className="text-gray-600">Visualize how your inputs connect to potential earning pathways.</p>
+            <CareerMap profile={profile} results={results} />
+        </div>
+      )}
 
-                 <div className="mb-4">
-                   <h5 className="font-semibold text-sm text-gray-500 uppercase tracking-wider mb-2">Steps to Success</h5>
-                   <ul className="list-disc list-inside space-y-1 text-gray-700">
-                     {pathway.roadmap.map((step, i) => (
-                       <li key={i}>{step}</li>
-                     ))}
-                   </ul>
-                 </div>
-               </div>
-             ))}
-           </div>
+      {activeTab === 'snapshot' && (
+        <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-800 text-center">Resume-Style Snapshot</h3>
+            <CareerSnapshot profile={profile} results={results} />
         </div>
       )}
     </div>
