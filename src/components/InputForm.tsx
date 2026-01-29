@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CATEGORIES, type Category } from '../data/rules';
+import { CATEGORIES } from '../data/rules';
 import { CATEGORY_OPTIONS, EDUCATION_LEVELS, EDUCATION_SUB_OPTIONS } from '../data/options';
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
