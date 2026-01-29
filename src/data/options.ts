@@ -1,10 +1,13 @@
-export interface EducationOption {
+export interface HierarchicalOption {
   label: string;
   value: string;
-  subOptions?: EducationOption[];
+  subOptions?: HierarchicalOption[];
 }
 
-export const EDUCATION_LEVELS: EducationOption[] = [
+// Kept for backward compatibility if any imports exist, but aliased
+export type EducationOption = HierarchicalOption;
+
+export const EDUCATION_LEVELS: HierarchicalOption[] = [
   {
     label: 'Below 12th',
     value: 'below_12th',
@@ -193,22 +196,224 @@ export const EDUCATION_LEVELS: EducationOption[] = [
   }
 ];
 
+export const SKILL_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Digital & Tech Skills',
+    value: 'digital_tech',
+    subOptions: [
+      {
+        label: 'Web Development',
+        value: 'web_dev',
+        subOptions: [
+          { label: 'HTML', value: 'html' },
+          { label: 'CSS', value: 'css' },
+          { label: 'JavaScript', value: 'javascript' },
+          { label: 'React', value: 'react' },
+          { label: 'Angular', value: 'angular' },
+          { label: 'Vue.js', value: 'vue' },
+          { label: 'PHP', value: 'php' },
+          { label: 'Node.js', value: 'node' }
+        ]
+      },
+      {
+        label: 'App Development',
+        value: 'app_dev',
+        subOptions: [
+          { label: 'Flutter', value: 'flutter' },
+          { label: 'React Native', value: 'react_native' },
+          { label: 'Swift (iOS)', value: 'swift' },
+          { label: 'Kotlin (Android)', value: 'kotlin' }
+        ]
+      },
+      {
+        label: 'Data Science & Analytics',
+        value: 'data_science',
+        subOptions: [
+          { label: 'Python', value: 'python' },
+          { label: 'R', value: 'r_lang' },
+          { label: 'SQL', value: 'sql' },
+          { label: 'Tableau', value: 'tableau' },
+          { label: 'Power BI', value: 'powerbi' },
+          { label: 'Machine Learning', value: 'ml' }
+        ]
+      },
+      { label: 'Cybersecurity', value: 'cybersecurity', subOptions: [
+          { label: 'Ethical Hacking', value: 'ethical_hacking' },
+          { label: 'Network Security', value: 'network_sec' }
+      ]},
+      { label: 'Cloud Computing', value: 'cloud', subOptions: [
+          { label: 'AWS', value: 'aws' },
+          { label: 'Azure', value: 'azure' },
+          { label: 'Google Cloud', value: 'gcp' }
+      ]}
+    ]
+  },
+  {
+    label: 'Creative & Media Skills',
+    value: 'creative_media',
+    subOptions: [
+      {
+        label: 'Video Editing',
+        value: 'video_editing',
+        subOptions: [
+          { label: 'Premiere Pro', value: 'premiere' },
+          { label: 'Final Cut Pro', value: 'fcp' },
+          { label: 'DaVinci Resolve', value: 'davinci' },
+          { label: 'CapCut', value: 'capcut' },
+          { label: 'Kinemaster', value: 'kinemaster' },
+          { label: 'VN Editor', value: 'vn' },
+          { label: 'Alight Motion', value: 'alight_motion' }
+        ]
+      },
+      {
+        label: 'Graphic Design',
+        value: 'graphic_design',
+        subOptions: [
+          { label: 'Photoshop', value: 'photoshop' },
+          { label: 'Illustrator', value: 'illustrator' },
+          { label: 'CorelDRAW', value: 'coreldraw' },
+          { label: 'Canva', value: 'canva' },
+          { label: 'Figma', value: 'figma' }
+        ]
+      },
+      {
+        label: 'Content Creation',
+        value: 'content_creation',
+        subOptions: [
+          { label: 'Copywriting', value: 'copywriting' },
+          { label: 'Storytelling', value: 'storytelling' },
+          { label: 'Scriptwriting', value: 'scriptwriting' },
+          { label: 'Blogging', value: 'blogging' }
+        ]
+      },
+      { label: 'Animation', value: 'animation', subOptions: [
+          { label: 'After Effects', value: 'after_effects' },
+          { label: 'Blender', value: 'blender' },
+          { label: 'Maya', value: 'maya' }
+      ]}
+    ]
+  },
+  {
+    label: 'Business & Management Skills',
+    value: 'business',
+    subOptions: [
+      {
+        label: 'Marketing',
+        value: 'marketing',
+        subOptions: [
+          { label: 'SEO', value: 'seo' },
+          { label: 'Social Media Marketing', value: 'smm' },
+          { label: 'Google Ads (SEM)', value: 'sem' },
+          { label: 'Email Marketing', value: 'email_marketing' },
+          { label: 'Affiliate Marketing', value: 'affiliate' }
+        ]
+      },
+      {
+        label: 'Finance',
+        value: 'finance',
+        subOptions: [
+          { label: 'Accounting', value: 'accounting' },
+          { label: 'Bookkeeping', value: 'bookkeeping' },
+          { label: 'Investing', value: 'investing' },
+          { label: 'Stock Trading', value: 'trading' }
+        ]
+      },
+      { label: 'Project Management', value: 'pm', subOptions: [
+          { label: 'Agile/Scrum', value: 'agile' },
+          { label: 'Jira', value: 'jira' },
+          { label: 'Trello', value: 'trello' }
+      ]},
+      { label: 'Entrepreneurship', value: 'entrepreneurship' }
+    ]
+  },
+  {
+    label: 'Communication & Language Skills',
+    value: 'communication',
+    subOptions: [
+      { label: 'Public Speaking', value: 'public_speaking' },
+      { label: 'Debating', value: 'debating' },
+      { label: 'Translation', value: 'translation' },
+      { label: 'Creative Writing', value: 'creative_writing' },
+      { label: 'Technical Writing', value: 'technical_writing' }
+    ]
+  },
+  {
+    label: 'Technical & Mechanical Skills',
+    value: 'technical_mechanical',
+    subOptions: [
+      { label: 'Electronics Repair', value: 'electronics_repair' },
+      { label: 'Automotive Repair', value: 'auto_repair' },
+      { label: 'Welding', value: 'welding' },
+      { label: 'Carpentry', value: 'carpentry' },
+      { label: 'Plumbing', value: 'plumbing' }
+    ]
+  },
+  {
+    label: 'Education & Academic Skills',
+    value: 'academic',
+    subOptions: [
+      { label: 'Teaching / Tutoring', value: 'teaching' },
+      { label: 'Curriculum Design', value: 'curriculum' },
+      { label: 'Research', value: 'research' },
+      { label: 'Academic Writing', value: 'academic_writing' }
+    ]
+  },
+  {
+    label: 'Health & Wellness Skills',
+    value: 'health',
+    subOptions: [
+      { label: 'Yoga Instruction', value: 'yoga' },
+      { label: 'Personal Training', value: 'personal_training' },
+      { label: 'Nutrition Planning', value: 'nutrition' },
+      { label: 'Meditation Guide', value: 'meditation' },
+      { label: 'First Aid', value: 'first_aid' }
+    ]
+  },
+  {
+    label: 'Art, Design & Performance Skills',
+    value: 'arts_performance',
+    subOptions: [
+      { label: 'Drawing / Sketching', value: 'drawing' },
+      { label: 'Painting', value: 'painting' },
+      { label: 'Music Production', value: 'music_prod' },
+      { label: 'Playing Instruments', value: 'instruments' },
+      { label: 'Singing', value: 'singing' },
+      { label: 'Acting', value: 'acting' },
+      { label: 'Dancing', value: 'dancing' }
+    ]
+  },
+  {
+    label: 'Lifestyle & Personal Skills',
+    value: 'lifestyle',
+    subOptions: [
+      { label: 'Cooking / Culinary Arts', value: 'cooking' },
+      { label: 'Baking', value: 'baking' },
+      { label: 'Gardening', value: 'gardening' },
+      { label: 'Interior Decorating', value: 'decorating' },
+      { label: 'Fashion Styling', value: 'styling' }
+    ]
+  },
+  {
+    label: 'Agriculture & Allied Skills',
+    value: 'agri_skills',
+    subOptions: [
+      { label: 'Organic Farming', value: 'organic_farming' },
+      { label: 'Animal Husbandry', value: 'animal_husbandry' },
+      { label: 'Horticulture', value: 'horticulture' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  Skills: [
-    'Coding', 'Programming', 'Web Design', 'JavaScript', 'React', 'HTML', 'CSS',
-    'Video Editing', 'Storytelling', 'Public Speaking', 'Content Creation', 'Filmmaking',
-    'Writing', 'Creative Writing', 'Copywriting', 'Marketing', 'English', 'Blogging',
-    'Teaching', 'Math', 'Science', 'Languages', 'Academic Tutoring',
-    'Drawing', 'Art', 'Graphic Design', 'Photoshop', 'Illustrator', 'Canva',
-    'Social Media Management', 'SEO', 'Data Analytics', 'Facebook Ads',
-    'Fitness Training', 'Sports Coaching', 'Nutrition Planning',
-    'Photography', 'Photo Editing', 'Project Management', 'Communication',
-    'Problem Solving', 'Teamwork', 'Leadership', 'Time Management', 'Sales',
-    'Customer Service', 'Accounting', 'Financial Analysis'
-  ],
+  // Skills is now handled by SKILL_LEVELS, leaving empty here to fallback or just removing it?
+  // We keep it as a fallback or for simple text search if needed, but UI will prefer SKILL_LEVELS.
+  // Actually, let's keep a flattened version here or just leave it.
+  // The InputForm logic will check for hierarchical data first.
+  Skills: [],
+
   Hobbies: [
     'Playing Guitar', 'Playing Piano', 'Singing', 'Music Production',
     'Drawing', 'Painting', 'Sketching', 'Digital Art',
