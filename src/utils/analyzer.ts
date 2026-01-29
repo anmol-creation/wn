@@ -1,5 +1,5 @@
 
-import { EARNING_PATHWAYS, type Pathway } from '../data/rules';
+import { EARNING_PATHWAYS, type Pathway, SKILL_LEVELS } from '../data/rules';
 
 export interface UserInputItem {
   id: string; // unique id for list rendering
@@ -27,10 +27,27 @@ export interface SkillScorecard {
   data: number[];
 }
 
+export interface ChartData {
+  labels: string[];
+  data: number[];
+}
+
+export interface GapAnalysisData {
+  labels: string[];
+  currentLevels: number[];
+  requiredLevels: number[];
+}
+
 export interface AnalysisResult {
   scorecard: SkillScorecard;
   topPathways: MatchedPathway[];
   totalSkillPoints: number;
+
+  // New chart data
+  barChartData: ChartData;
+  pieChartData: ChartData;
+  radarChartData: ChartData;
+  gapAnalysisData: GapAnalysisData | null;
 }
 
 export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
@@ -97,12 +114,100 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
     .filter(p => p.matchScore > 0)
     .sort((a, b) => b.matchScore - a.matchScore);
 
+  // --- Prepare Chart Data ---
+
+  // Bar Chart: Top Skills vs Levels
+  // Collect all items with levels from Education, Skills, Hobbies
+  const leveledItems = [
+    ...profile.Education,
+    ...profile.Skills,
+    ...profile.Hobbies
+  ].filter(item => item.text.trim().length > 0);
+
+  // Sort by level descending
+  const sortedSkills = leveledItems.sort((a, b) => b.level - a.level).slice(0, 10);
+  const barChartData = {
+    labels: sortedSkills.map(s => s.text),
+    data: sortedSkills.map(s => s.level)
+  };
+
+  // Pie Chart: Category Contribution
+  // Already calculated as scorecardData, just need to structure it
+  const pieChartData = {
+    labels: scorecardLabels,
+    data: scorecardData
+  };
+
+  // Radar Chart: Top Monetizable Skills
+  // Find user skills that appear in ANY earning pathway's required skills
+  const allRequiredSkills = new Set<string>();
+  EARNING_PATHWAYS.forEach(p => p.requiredSkills.forEach(s => allRequiredSkills.add(s)));
+
+  const monetizableSkills = leveledItems.filter(item => {
+    const text = item.text.toLowerCase();
+    return Array.from(allRequiredSkills).some(req => text.includes(req) || req.includes(text));
+  });
+
+  // Remove duplicates, keep highest level
+  const uniqueMonetizableSkills = new Map<string, number>();
+  monetizableSkills.forEach(item => {
+     // use the matched required skill name if possible for cleaner labels, or user text
+     // Here we stick to user text for simplicity, or we could normalize.
+     // Let's use user text but dedupe by checking against existing keys.
+     const key = item.text;
+     if (!uniqueMonetizableSkills.has(key) || uniqueMonetizableSkills.get(key)! < item.level) {
+       uniqueMonetizableSkills.set(key, item.level);
+     }
+  });
+
+  // Limit to top 5-6 for Radar chart legibility
+  const topMonetizable = Array.from(uniqueMonetizableSkills.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+
+  // If we don't have enough monetizable skills, maybe fill with top skills?
+  // Or just show what we have.
+
+  const radarChartData = {
+    labels: topMonetizable.length > 0 ? topMonetizable.map(x => x[0]) : ['No Data'],
+    data: topMonetizable.length > 0 ? topMonetizable.map(x => x[1]) : [0]
+  };
+
+  // Line Chart: Gap Analysis for #1 Pathway
+  let gapAnalysisData: GapAnalysisData | null = null;
+  if (relevantPathways.length > 0) {
+    const topPathway = relevantPathways[0];
+    const requiredLevel = SKILL_LEVELS[topPathway.difficulty]; // e.g. 1, 2, or 3
+
+    // For each required skill, find user's level
+    const labels = topPathway.requiredSkills;
+    const currentLevels = labels.map(reqSkill => {
+        // Find best matching user item
+        const match = leveledItems.find(item =>
+            item.text.toLowerCase().includes(reqSkill) || reqSkill.includes(item.text.toLowerCase())
+        );
+        return match ? match.level : 0;
+    });
+
+    const requiredLevels = labels.map(() => requiredLevel);
+
+    gapAnalysisData = {
+        labels,
+        currentLevels,
+        requiredLevels
+    };
+  }
+
   return {
     scorecard: {
       labels: scorecardLabels,
       data: scorecardData
     },
     topPathways: relevantPathways,
-    totalSkillPoints
+    totalSkillPoints,
+    barChartData,
+    pieChartData,
+    radarChartData,
+    gapAnalysisData
   };
 };
