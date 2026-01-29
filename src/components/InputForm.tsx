@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CATEGORIES } from '../data/rules';
-import { CATEGORY_OPTIONS, EDUCATION_LEVELS, type EducationOption } from '../data/options';
+import { CATEGORY_OPTIONS, EDUCATION_LEVELS, SKILL_LEVELS, type HierarchicalOption } from '../data/options';
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -86,14 +86,14 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
   };
 
   // Helper to check if an option or its children match the search term
-  const matchesSearch = (option: EducationOption): boolean => {
+  const matchesSearch = (option: HierarchicalOption): boolean => {
     if (!searchTerm) return true;
     if (option.label.toLowerCase().includes(searchTerm.toLowerCase())) return true;
     return option.subOptions?.some(sub => matchesSearch(sub)) || false;
   };
 
-  // Recursive renderer for Education options
-  const renderEducationOption = (option: EducationOption, depth = 0) => {
+  // Recursive renderer for Hierarchical options
+  const renderHierarchicalOption = (option: HierarchicalOption, depth = 0) => {
     // If searching, only render if it matches or has matching children
     if (!matchesSearch(option)) return null;
 
@@ -136,7 +136,7 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
         {/* Render Children */}
         {hasSub && isExpanded && (
           <div className="mt-2">
-            {option.subOptions!.map(sub => renderEducationOption(sub, depth + 1))}
+            {option.subOptions!.map(sub => renderHierarchicalOption(sub, depth + 1))}
           </div>
         )}
       </div>
@@ -172,14 +172,21 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
 
   // Render Category Options
   const renderOptions = () => {
-    // Education Special Logic
+    // Check for hierarchical data
+    let hierarchicalData: HierarchicalOption[] | null = null;
     if (currentCategory === 'Education') {
+      hierarchicalData = EDUCATION_LEVELS;
+    } else if (currentCategory === 'Skills') {
+      hierarchicalData = SKILL_LEVELS;
+    }
+
+    if (hierarchicalData) {
       return (
         <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-          {EDUCATION_LEVELS.map(level => renderEducationOption(level))}
+          {hierarchicalData.map(level => renderHierarchicalOption(level))}
           {/* Show message if search yields no results */}
-          {searchTerm && !EDUCATION_LEVELS.some(matchesSearch) && (
-             <p className="text-center text-gray-500 py-4">No education options found.</p>
+          {searchTerm && !hierarchicalData.some(matchesSearch) && (
+             <p className="text-center text-gray-500 py-4">No options found.</p>
           )}
         </div>
       );
