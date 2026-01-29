@@ -8,15 +8,18 @@ import { Key } from 'lucide-react'
 function App() {
   const [view, setView] = useState<'form' | 'dashboard'>('form');
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null);
+  const [currentProfile, setCurrentProfile] = useState<UserProfile | null>(null);
 
   const handleAnalyze = (profile: UserProfile) => {
     const results = analyzeProfile(profile);
     setAnalysisResults(results);
+    setCurrentProfile(profile);
     setView('dashboard');
   };
 
   const handleReset = () => {
     setAnalysisResults(null);
+    setCurrentProfile(null);
     setView('form');
   };
 
@@ -50,7 +53,7 @@ function App() {
             <InputForm onAnalyze={handleAnalyze} />
           </div>
         ) : (
-          analysisResults && <Dashboard results={analysisResults} onReset={handleReset} />
+          analysisResults && currentProfile && <Dashboard results={analysisResults} profile={currentProfile} onReset={handleReset} />
         )}
       </main>
 
