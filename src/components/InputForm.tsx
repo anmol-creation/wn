@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CATEGORIES } from '../data/rules';
-import { CATEGORY_OPTIONS, EDUCATION_LEVELS, EDUCATION_SUB_OPTIONS } from '../data/options';
+import { CATEGORY_OPTIONS, EDUCATION_LEVELS, type EducationOption } from '../data/options';
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -13,7 +13,9 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
   const [hasStarted, setHasStarted] = useState(false);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [expandedEducation, setExpandedEducation] = useState(false);
+
+  // Store expanded item labels (unique enough for UI state)
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   // Initialize empty profile
   const [profile, setProfile] = useState<UserProfile>(
@@ -51,11 +53,19 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
     return profile[currentCategory].some(item => item.text === text);
   };
 
+  const toggleExpand = (label: string) => {
+    setExpandedItems(prev =>
+      prev.includes(label)
+        ? prev.filter(l => l !== label)
+        : [...prev, label]
+    );
+  };
+
   const handleNext = () => {
     if (currentCategoryIndex < CATEGORIES.length - 1) {
       setCurrentCategoryIndex(prev => prev + 1);
       setSearchTerm('');
-      setExpandedEducation(false);
+      setExpandedItems([]); // Reset expansion on next step
     } else {
       onAnalyze(profile);
     }
@@ -65,7 +75,7 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
     if (currentCategoryIndex > 0) {
       setCurrentCategoryIndex(prev => prev - 1);
       setSearchTerm('');
-      setExpandedEducation(false);
+      setExpandedItems([]);
     }
   };
 
@@ -73,6 +83,64 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
     if (userName.trim()) {
       setHasStarted(true);
     }
+  };
+
+  // Helper to check if an option or its children match the search term
+  const matchesSearch = (option: EducationOption): boolean => {
+    if (!searchTerm) return true;
+    if (option.label.toLowerCase().includes(searchTerm.toLowerCase())) return true;
+    return option.subOptions?.some(sub => matchesSearch(sub)) || false;
+  };
+
+  // Recursive renderer for Education options
+  const renderEducationOption = (option: EducationOption, depth = 0) => {
+    // If searching, only render if it matches or has matching children
+    if (!matchesSearch(option)) return null;
+
+    const hasSub = option.subOptions && option.subOptions.length > 0;
+    const isExpanded = expandedItems.includes(option.label) || searchTerm.length > 0; // Auto-expand on search
+    const selected = isSelected(option.label);
+
+    return (
+      <div key={option.value} className={`mb-2 ${depth > 0 ? 'ml-6 border-l-2 border-gray-100 pl-4' : ''}`}>
+        <div className={`
+            flex items-center justify-between p-3 rounded-lg border transition-all
+            ${selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}
+        `}>
+           <label className="flex items-center gap-3 cursor-pointer flex-grow">
+              <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${selected ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}>
+                 {selected && <Check size={14} className="text-white" />}
+              </div>
+              <input
+                type="checkbox"
+                className="hidden"
+                checked={selected}
+                onChange={() => toggleItem(option.label)}
+              />
+              <span className="text-gray-700 font-medium">{option.label}</span>
+           </label>
+
+           {hasSub && (
+             <button
+               onClick={(e) => {
+                 e.preventDefault(); // Prevent checkbox toggle
+                 toggleExpand(option.label);
+               }}
+               className="p-1 hover:bg-gray-100 rounded text-gray-500"
+             >
+               {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+             </button>
+           )}
+        </div>
+
+        {/* Render Children */}
+        {hasSub && isExpanded && (
+          <div className="mt-2">
+            {option.subOptions!.map(sub => renderEducationOption(sub, depth + 1))}
+          </div>
+        )}
+      </div>
+    );
   };
 
   // Welcome Screen
@@ -106,58 +174,13 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
   const renderOptions = () => {
     // Education Special Logic
     if (currentCategory === 'Education') {
-      const filteredLevels = EDUCATION_LEVELS.filter(l =>
-        l.label.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-
       return (
-        <div className="space-y-2">
-          {filteredLevels.map(level => (
-            <div key={level.value} className="border border-gray-200 rounded-lg overflow-hidden bg-white">
-               {level.hasSubOptions ? (
-                 <div>
-                   <button
-                     onClick={() => setExpandedEducation(!expandedEducation)}
-                     className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 text-left transition-colors"
-                   >
-                     <span className="font-medium text-gray-700">{level.label}</span>
-                     {expandedEducation ? <ChevronUp size={20} className="text-gray-500" /> : <ChevronDown size={20} className="text-gray-500" />}
-                   </button>
-                   {expandedEducation && (
-                     <div className="p-4 bg-white border-t border-gray-100 space-y-2">
-                       {EDUCATION_SUB_OPTIONS.map(subOpt => (
-                         <label key={subOpt} className="flex items-center gap-3 p-2 hover:bg-blue-50 rounded cursor-pointer transition-colors">
-                           <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${isSelected(subOpt) ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}>
-                             {isSelected(subOpt) && <Check size={14} className="text-white" />}
-                           </div>
-                           <input
-                             type="checkbox"
-                             className="hidden"
-                             checked={isSelected(subOpt)}
-                             onChange={() => toggleItem(subOpt)}
-                           />
-                           <span className="text-gray-700">{subOpt}</span>
-                         </label>
-                       ))}
-                     </div>
-                   )}
-                 </div>
-               ) : (
-                 <label className="flex items-center gap-3 p-4 cursor-pointer hover:bg-blue-50 transition-colors">
-                   <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${isSelected(level.label) ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}>
-                     {isSelected(level.label) && <Check size={14} className="text-white" />}
-                   </div>
-                   <input
-                     type="checkbox"
-                     className="hidden"
-                     checked={isSelected(level.label)}
-                     onChange={() => toggleItem(level.label)}
-                   />
-                   <span className="text-gray-700">{level.label}</span>
-                 </label>
-               )}
-            </div>
-          ))}
+        <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+          {EDUCATION_LEVELS.map(level => renderEducationOption(level))}
+          {/* Show message if search yields no results */}
+          {searchTerm && !EDUCATION_LEVELS.some(matchesSearch) && (
+             <p className="text-center text-gray-500 py-4">No education options found.</p>
+          )}
         </div>
       );
     }

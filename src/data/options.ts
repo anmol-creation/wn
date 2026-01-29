@@ -1,22 +1,200 @@
-export const EDUCATION_LEVELS = [
-  { label: 'Below 12th', value: 'below_12th', hasSubOptions: true },
-  { label: '12th Pass', value: '12th_pass' },
-  { label: 'Diploma', value: 'diploma' },
-  { label: 'Bachelor\'s Degree', value: 'bachelors' },
-  { label: 'Master\'s Degree', value: 'masters' },
-  { label: 'PhD', value: 'phd' },
+export interface EducationOption {
+  label: string;
+  value: string;
+  subOptions?: EducationOption[];
+}
+
+export const EDUCATION_LEVELS: EducationOption[] = [
+  {
+    label: 'Below 12th',
+    value: 'below_12th',
+    subOptions: [
+      { label: '11th Pass', value: '11th_pass' },
+      { label: '10th Pass', value: '10th_pass' },
+      { label: '9th Pass', value: '9th_pass' },
+      { label: '8th Pass', value: '8th_pass' },
+      { label: '7th Pass', value: '7th_pass' },
+      { label: '6th Pass', value: '6th_pass' },
+      { label: '5th Pass', value: '5th_pass' },
+      { label: 'None', value: 'none' }
+    ]
+  },
+  {
+    label: '12th Pass',
+    value: '12th_pass',
+    subOptions: [
+      {
+        label: 'Stream',
+        value: 'stream',
+        subOptions: [
+          { label: 'Science (PCM)', value: 'science_pcm' },
+          { label: 'Science (PCB)', value: 'science_pcb' },
+          { label: 'Commerce', value: 'commerce' },
+          { label: 'Arts/Humanities', value: 'arts' },
+          { label: 'Vocational', value: 'vocational' }
+        ]
+      },
+      {
+        label: 'Board / Medium',
+        value: 'board_medium',
+        subOptions: [
+          { label: 'CBSE', value: 'cbse' },
+          { label: 'ICSE', value: 'icse' },
+          { label: 'State Board', value: 'state_board' },
+          { label: 'UP Board', value: 'up_board' },
+          { label: 'English Medium', value: 'english_medium' },
+          { label: 'Hindi Medium', value: 'hindi_medium' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Common Degrees',
+    value: 'common_degrees',
+    subOptions: [
+      { label: 'Diploma', value: 'diploma' },
+      { label: 'Certificate Courses', value: 'certificate' },
+      { label: 'Associate Degree', value: 'associate' },
+      { label: 'BA (Bachelor of Arts)', value: 'ba' },
+      { label: 'B.Sc (Bachelor of Science)', value: 'bsc' },
+      { label: 'B.Com (Bachelor of Commerce)', value: 'bcom' },
+      { label: 'MA (Master of Arts)', value: 'ma' },
+      { label: 'M.Sc (Master of Science)', value: 'msc' },
+      { label: 'M.Com (Master of Commerce)', value: 'mcom' },
+      { label: 'Doctorate (Ph.D., D.Litt., D.Sc.)', value: 'doctorate' }
+    ]
+  },
+  {
+    label: 'Main Categories (Fields of Study)',
+    value: 'main_categories',
+    subOptions: [
+      {
+        label: 'Engineering & Technology',
+        value: 'engineering',
+        subOptions: [
+           { label: 'B.Tech / B.E.', value: 'btech' },
+           { label: 'M.Tech / M.E.', value: 'mtech' },
+           { label: 'Computer Science', value: 'cse' },
+           { label: 'Mechanical', value: 'mechanical' },
+           { label: 'Civil', value: 'civil' },
+           { label: 'Electrical / Electronics', value: 'electrical' }
+        ]
+      },
+      {
+        label: 'Medical & Health Sciences',
+        value: 'medical',
+        subOptions: [
+          { label: 'MBBS', value: 'mbbs' },
+          { label: 'BDS (Dental)', value: 'bds' },
+          { label: 'BAMS (Ayurveda)', value: 'bams' },
+          { label: 'Nursing (B.Sc / GNM)', value: 'nursing' },
+          { label: 'Pharmacy (B.Pharma / M.Pharma)', value: 'pharmacy' }
+        ]
+      },
+      {
+        label: 'Commerce & Management',
+        value: 'management',
+        subOptions: [
+          { label: 'B.Com', value: 'bcom_gen' },
+          { label: 'BBA', value: 'bba' },
+          { label: 'MBA', value: 'mba' },
+          { label: 'CA (Chartered Accountant)', value: 'ca' },
+          { label: 'CS (Company Secretary)', value: 'cs' },
+          { label: 'CMA (Cost Management Accountant)', value: 'cma' }
+        ]
+      },
+      {
+        label: 'Arts, Humanities & Social Sciences',
+        value: 'humanities',
+        subOptions: [
+          { label: 'BA Specializations', value: 'ba_spec' },
+          { label: 'Fine Arts (BFA)', value: 'bfa' },
+          { label: 'Performing Arts', value: 'performing_arts' },
+          { label: 'Social Work (BSW / MSW)', value: 'social_work' }
+        ]
+      },
+      {
+        label: 'Science',
+        value: 'science_field',
+        subOptions: [
+          { label: 'B.Sc Specializations', value: 'bsc_spec' },
+          { label: 'M.Sc Specializations', value: 'msc_spec' }
+        ]
+      },
+      {
+        label: 'Law',
+        value: 'law',
+        subOptions: [
+          { label: 'LLB', value: 'llb' },
+          { label: 'LLM', value: 'llm' },
+          { label: 'Legal Diplomas', value: 'law_diploma' }
+        ]
+      },
+      {
+        label: 'Education',
+        value: 'education_field',
+        subOptions: [
+          { label: 'B.Ed', value: 'bed' },
+          { label: 'M.Ed', value: 'med' },
+          { label: 'D.Ed', value: 'ded' }
+        ]
+      },
+      {
+        label: 'Agriculture & Allied',
+        value: 'agriculture',
+        subOptions: [
+          { label: 'B.Sc Agriculture', value: 'bsc_agri' },
+          { label: 'Veterinary Science', value: 'veterinary' },
+          { label: 'Forestry', value: 'forestry' },
+          { label: 'Food Technology', value: 'food_tech' }
+        ]
+      },
+      {
+        label: 'Design, Fashion & Architecture',
+        value: 'design',
+        subOptions: [
+          { label: 'B.Arch', value: 'barch' },
+          { label: 'B.Des', value: 'bdes' },
+          { label: 'Fashion Design', value: 'fashion_design' },
+          { label: 'Interior Design', value: 'interior_design' }
+        ]
+      },
+      {
+        label: 'Computer Applications & IT',
+        value: 'it',
+        subOptions: [
+          { label: 'BCA', value: 'bca' },
+          { label: 'MCA', value: 'mca' },
+          { label: 'B.Sc IT', value: 'bsc_it' },
+          { label: 'M.Sc IT', value: 'msc_it' }
+        ]
+      },
+      {
+        label: 'Hospitality, Tourism & Culinary',
+        value: 'hospitality',
+        subOptions: [
+          { label: 'Hotel Management', value: 'hotel_mgmt' },
+          { label: 'Travel & Tourism', value: 'tourism' },
+          { label: 'Culinary Arts', value: 'culinary' }
+        ]
+      },
+      {
+        label: 'Mass Communication & Media',
+        value: 'media',
+        subOptions: [
+          { label: 'Journalism', value: 'journalism' },
+          { label: 'Mass Communication', value: 'mass_comm' },
+          { label: 'Film Studies', value: 'film' },
+          { label: 'Animation & VFX', value: 'animation' },
+          { label: 'Digital Media', value: 'digital_media' }
+        ]
+      }
+    ]
+  }
 ];
 
-export const EDUCATION_SUB_OPTIONS = [
-  '11th',
-  '10th',
-  '9th',
-  '8th',
-  '7th',
-  '6th',
-  '5th',
-  'None'
-];
+// Re-export this for backward compatibility if needed, though we will remove usage
+export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
   Skills: [
