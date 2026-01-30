@@ -404,27 +404,194 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const HOBBY_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Creative & Artistic Hobbies',
+    value: 'creative_hobbies',
+    subOptions: [
+      {
+        label: 'Drawing / Painting',
+        value: 'drawing_painting',
+        subOptions: [
+          { label: 'Sketching', value: 'sketching' },
+          { label: 'Watercolor', value: 'watercolor' },
+          { label: 'Oil Painting', value: 'oil_painting' },
+          { label: 'Digital Art', value: 'digital_art' }
+        ]
+      },
+      {
+        label: 'Crafting / DIY',
+        value: 'crafting',
+        subOptions: [
+          { label: 'Knitting/Sewing', value: 'knitting' },
+          { label: 'Origami', value: 'origami' },
+          { label: 'Woodworking', value: 'woodworking' }
+        ]
+      },
+      {
+        label: 'Photography',
+        value: 'photography',
+        subOptions: [
+          { label: 'Nature Photography', value: 'nature_photo' },
+          { label: 'Portrait Photography', value: 'portrait_photo' },
+          { label: 'Street Photography', value: 'street_photo' }
+        ]
+      },
+      {
+        label: 'Writing',
+        value: 'writing_hobby',
+        subOptions: [
+          { label: 'Poetry', value: 'poetry' },
+          { label: 'Journaling', value: 'journaling' },
+          { label: 'Short Stories', value: 'short_stories' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Performance & Entertainment Hobbies',
+    value: 'performance_hobbies',
+    subOptions: [
+      {
+        label: 'Music',
+        value: 'music_hobby',
+        subOptions: [
+          { label: 'Singing', value: 'singing' },
+          { label: 'Guitar', value: 'guitar' },
+          { label: 'Piano', value: 'piano' },
+          { label: 'Drums', value: 'drums' },
+          { label: 'DJing', value: 'dj' }
+        ]
+      },
+      {
+        label: 'Dance',
+        value: 'dance_hobby',
+        subOptions: [
+          { label: 'Hip Hop', value: 'hiphop' },
+          { label: 'Classical', value: 'classical_dance' },
+          { label: 'Salsa', value: 'salsa' }
+        ]
+      },
+      {
+        label: 'Acting / Theatre',
+        value: 'acting_hobby',
+        subOptions: [
+          { label: 'Drama', value: 'drama' },
+          { label: 'Stand-up Comedy', value: 'comedy' },
+          { label: 'Mimicry', value: 'mimicry' }
+        ]
+      },
+      {
+        label: 'Gaming',
+        value: 'gaming',
+        subOptions: [
+          { label: 'PC Gaming', value: 'pc_gaming' },
+          { label: 'Console Gaming', value: 'console_gaming' },
+          { label: 'Mobile Gaming', value: 'mobile_gaming' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Outdoor & Adventure Hobbies',
+    value: 'outdoor_hobbies',
+    subOptions: [
+      {
+        label: 'Traveling',
+        value: 'traveling',
+        subOptions: [
+          { label: 'Backpacking', value: 'backpacking' },
+          { label: 'Road Trips', value: 'road_trips' },
+          { label: 'Solo Travel', value: 'solo_travel' }
+        ]
+      },
+      {
+        label: 'Trekking / Hiking',
+        value: 'trekking',
+        subOptions: [
+          { label: 'Mountain Trekking', value: 'mountain_trek' },
+          { label: 'Forest Hiking', value: 'forest_hike' }
+        ]
+      },
+      { label: 'Camping', value: 'camping' },
+      {
+        label: 'Sports',
+        value: 'sports_hobby',
+        subOptions: [
+          { label: 'Cricket', value: 'cricket' },
+          { label: 'Football', value: 'football' },
+          { label: 'Badminton', value: 'badminton' },
+          { label: 'Basketball', value: 'basketball' },
+          { label: 'Athletics', value: 'athletics' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Lifestyle & Leisure Hobbies',
+    value: 'lifestyle_hobbies',
+    subOptions: [
+      {
+        label: 'Cooking',
+        value: 'cooking_hobby',
+        subOptions: [
+          { label: 'Baking', value: 'baking' },
+          { label: 'Indian Cuisine', value: 'indian_cuisine' },
+          { label: 'Continental Cuisine', value: 'continental' },
+          { label: 'Street Food Experiments', value: 'street_food' }
+        ]
+      },
+      { label: 'Gardening', value: 'gardening' },
+      { label: 'Reading', value: 'reading' },
+      { label: 'Collecting', value: 'collecting' }
+    ]
+  },
+  {
+    label: 'Technology & Digital Hobbies',
+    value: 'tech_hobbies',
+    subOptions: [
+      {
+        label: 'Blogging',
+        value: 'blogging_hobby',
+        subOptions: [
+          { label: 'Personal Blog', value: 'personal_blog' },
+          { label: 'Tech Blog', value: 'tech_blog' },
+          { label: 'Travel Blog', value: 'travel_blog' }
+        ]
+      },
+      { label: 'Social Media Content', value: 'social_media' },
+      { label: 'Coding for Fun', value: 'coding_fun' },
+      { label: 'Video Creation', value: 'video_creation' }
+    ]
+  },
+  {
+    label: 'Mind & Wellness Hobbies',
+    value: 'wellness_hobbies',
+    subOptions: [
+      {
+        label: 'Yoga & Meditation',
+        value: 'yoga_hobby',
+        subOptions: [
+          { label: 'Asanas', value: 'asanas' },
+          { label: 'Breathing Exercises', value: 'breathing' },
+          { label: 'Mindfulness', value: 'mindfulness' }
+        ]
+      },
+      { label: 'Fitness', value: 'fitness_hobby' },
+      { label: 'Puzzle Solving', value: 'puzzles' },
+      { label: 'Chess / Board Games', value: 'board_games' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills is now handled by SKILL_LEVELS, leaving empty here to fallback or just removing it?
-  // We keep it as a fallback or for simple text search if needed, but UI will prefer SKILL_LEVELS.
-  // Actually, let's keep a flattened version here or just leave it.
-  // The InputForm logic will check for hierarchical data first.
+  // Skills and Hobbies are now handled by SKILL_LEVELS and HOBBY_LEVELS
   Skills: [],
+  Hobbies: [],
 
-  Hobbies: [
-    'Playing Guitar', 'Playing Piano', 'Singing', 'Music Production',
-    'Drawing', 'Painting', 'Sketching', 'Digital Art',
-    'Photography', 'Videography', 'Travel', 'Blogging',
-    'Reading', 'Writing', 'Gaming', 'Cooking', 'Baking',
-    'Gardening', 'DIY & Crafts', 'Knitting', 'Sewing',
-    'Hiking', 'Camping', 'Fishing', 'Cycling', 'Running',
-    'Yoga', 'Meditation', 'Dancing', 'Acting',
-    'Volunteering', 'Mentoring', 'Collecting', 'Chess',
-    'Puzzle Solving', 'Learning Languages', 'Coding for Fun'
-  ],
   Interests: [
     'Artificial Intelligence', 'Machine Learning', 'Blockchain', 'Crypto',
     'Web Development', 'Software Engineering', 'Game Development',
