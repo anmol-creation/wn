@@ -584,26 +584,186 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const INTEREST_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Academic & Knowledge Interests',
+    value: 'academic_interests',
+    subOptions: [
+      {
+        label: 'Science',
+        value: 'science_interest',
+        subOptions: [
+          { label: 'Physics', value: 'physics' },
+          { label: 'Chemistry', value: 'chemistry' },
+          { label: 'Biology', value: 'biology' },
+          { label: 'Astronomy', value: 'astronomy' },
+          { label: 'Environmental Science', value: 'env_science' }
+        ]
+      },
+      { label: 'Mathematics', value: 'math_interest' },
+      { label: 'History', value: 'history_interest' },
+      { label: 'Literature', value: 'literature_interest' },
+      { label: 'Philosophy', value: 'philosophy_interest' }
+    ]
+  },
+  {
+    label: 'Technology & Innovation Interests',
+    value: 'tech_innovation',
+    subOptions: [
+      {
+        label: 'Computers & IT',
+        value: 'computers_it',
+        subOptions: [
+          { label: 'AI/ML', value: 'ai_ml' },
+          { label: 'Cybersecurity', value: 'cybersec_interest' },
+          { label: 'Blockchain', value: 'blockchain_interest' },
+          { label: 'Cloud Computing', value: 'cloud_interest' }
+        ]
+      },
+      { label: 'Gadgets', value: 'gadgets' },
+      { label: 'Robotics', value: 'robotics' },
+      {
+        label: 'Emerging Tech',
+        value: 'emerging_tech',
+        subOptions: [
+          { label: 'AR/VR', value: 'ar_vr' },
+          { label: 'IoT', value: 'iot' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Business & Finance Interests',
+    value: 'business_finance',
+    subOptions: [
+      { label: 'Entrepreneurship', value: 'entrepreneurship_interest' },
+      { label: 'Marketing', value: 'marketing_interest' },
+      {
+        label: 'Finance',
+        value: 'finance_interest',
+        subOptions: [
+          { label: 'Stock Market', value: 'stock_market' },
+          { label: 'Investments', value: 'investments' },
+          { label: 'Personal Finance', value: 'personal_finance' },
+          { label: 'Crypto', value: 'crypto' }
+        ]
+      },
+      { label: 'Economics', value: 'economics' }
+    ]
+  },
+  {
+    label: 'Creative & Artistic Interests',
+    value: 'creative_interests',
+    subOptions: [
+      {
+        label: 'Visual Arts',
+        value: 'visual_arts',
+        subOptions: [
+          { label: 'Photography', value: 'photography_interest' },
+          { label: 'Painting', value: 'painting_interest' },
+          { label: 'Sculpture', value: 'sculpture' }
+        ]
+      },
+      { label: 'Performing Arts', value: 'performing_arts_interest' },
+      { label: 'Writing', value: 'writing_interest' },
+      { label: 'Fashion & Design', value: 'fashion_design_interest' }
+    ]
+  },
+  {
+    label: 'Lifestyle & Personal Interests',
+    value: 'lifestyle_interests',
+    subOptions: [
+      {
+        label: 'Food',
+        value: 'food_interest',
+        subOptions: [
+          { label: 'Baking', value: 'baking_interest' },
+          { label: 'Indian Cuisine', value: 'indian_cuisine_interest' },
+          { label: 'World Cuisine', value: 'world_cuisine' }
+        ]
+      },
+      { label: 'Travel', value: 'travel_interest' },
+      { label: 'Fitness', value: 'fitness_interest' },
+      { label: 'Wellness', value: 'wellness_interest' }
+    ]
+  },
+  {
+    label: 'Social & Community Interests',
+    value: 'social_interests',
+    subOptions: [
+      {
+        label: 'Volunteering',
+        value: 'volunteering_interest',
+        subOptions: [
+          { label: 'NGOs', value: 'ngos' },
+          { label: 'Community Service', value: 'community_service' },
+          { label: 'Awareness Campaigns', value: 'awareness' }
+        ]
+      },
+      { label: 'Politics', value: 'politics' },
+      { label: 'Environment', value: 'environment_interest' },
+      { label: 'Education', value: 'education_interest' }
+    ]
+  },
+  {
+    label: 'Entertainment & Media Interests',
+    value: 'entertainment_interests',
+    subOptions: [
+      {
+        label: 'Movies',
+        value: 'movies_interest',
+        subOptions: [
+          { label: 'Bollywood', value: 'bollywood' },
+          { label: 'Hollywood', value: 'hollywood' },
+          { label: 'Regional Cinema', value: 'regional_cinema' }
+        ]
+      },
+      { label: 'TV Shows', value: 'tv_shows' },
+      { label: 'Gaming', value: 'gaming_interest' },
+      { label: 'Social Media', value: 'social_media_interest' }
+    ]
+  },
+  {
+    label: 'Sports & Outdoor Interests',
+    value: 'sports_interests',
+    subOptions: [
+      {
+        label: 'Team Sports',
+        value: 'team_sports',
+        subOptions: [
+          { label: 'Cricket', value: 'cricket_interest' },
+          { label: 'Football', value: 'football_interest' }
+        ]
+      },
+      {
+        label: 'Individual Sports',
+        value: 'individual_sports',
+        subOptions: [
+          { label: 'Badminton', value: 'badminton_interest' },
+          { label: 'Swimming', value: 'swimming' }
+        ]
+      },
+      {
+        label: 'Adventure',
+        value: 'adventure_sports',
+        subOptions: [
+          { label: 'Trekking', value: 'trekking_interest' }
+        ]
+      },
+      { label: 'Fitness Sports', value: 'fitness_sports' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills and Hobbies are now handled by SKILL_LEVELS and HOBBY_LEVELS
+  // Skills, Hobbies, and Interests are now handled by SKILL_LEVELS, HOBBY_LEVELS, and INTEREST_LEVELS
   Skills: [],
   Hobbies: [],
+  Interests: [],
 
-  Interests: [
-    'Artificial Intelligence', 'Machine Learning', 'Blockchain', 'Crypto',
-    'Web Development', 'Software Engineering', 'Game Development',
-    'Digital Marketing', 'Entrepreneurship', 'Startups', 'Business',
-    'Finance', 'Investing', 'Stock Market', 'Economics',
-    'Psychology', 'Philosophy', 'History', 'Politics',
-    'Science', 'Astronomy', 'Physics', 'Biology', 'Chemistry',
-    'Environmental Science', 'Sustainability', 'Climate Change',
-    'Health & Wellness', 'Fitness', 'Nutrition', 'Mental Health',
-    'Fashion', 'Design', 'Architecture', 'Interior Design',
-    'Film', 'Music', 'Literature', 'Art History'
-  ],
   Activities: [
     'Volunteering', 'Community Service', 'Charity Work',
     'Team Sports', 'Individual Sports', 'Gym', 'Fitness Classes',
