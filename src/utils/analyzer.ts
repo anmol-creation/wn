@@ -1,5 +1,5 @@
 
-import { EARNING_PATHWAYS, type Pathway, SKILL_LEVELS } from '../data/rules';
+import { EARNING_PATHWAYS, type Pathway, SKILL_LEVELS, IMPROVEMENT_RESOURCES } from '../data/rules';
 
 export interface UserInputItem {
   id: string; // unique id for list rendering
@@ -19,7 +19,9 @@ export interface UserProfile {
 
 export interface MatchedPathway extends Pathway {
   matchScore: number; // 0 to 100%
+  readiness: 'High' | 'Medium' | 'Low';
   missingSkills: string[];
+  improvementSteps: string[];
 }
 
 export interface SkillScorecard {
@@ -93,23 +95,43 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
     });
 
     // Calculate score based on coverage of required skills
-    // We add a small weight if they have *some* skills versus none.
     let score = 0;
     if (pathway.requiredSkills.length > 0) {
       score = (matchCount / pathway.requiredSkills.length) * 100;
     }
 
+    // Determine Readiness
+    let readiness: 'High' | 'Medium' | 'Low' = 'Low';
+    if (score >= 80) readiness = 'High';
+    else if (score >= 40) readiness = 'Medium';
+
+    // Generate Improvement Steps
+    const improvementSteps: string[] = [];
+    missing.forEach(skill => {
+        // Find general key for resource lookup (e.g., 'premiere pro' -> 'video')
+        // Simple heuristic: check if resource keys match skill string
+        const resourceKeys = Object.keys(IMPROVEMENT_RESOURCES);
+        const matchedKey = resourceKeys.find(key => skill.includes(key) || key.includes(skill));
+
+        if (matchedKey) {
+            improvementSteps.push(`Learn ${skill}: Check resources on ${IMPROVEMENT_RESOURCES[matchedKey].join(', ')}`);
+        } else {
+            improvementSteps.push(`Acquire skill: ${skill}`);
+        }
+    });
+
     return {
       ...pathway,
       matchScore: Math.round(score),
-      missingSkills: missing
+      readiness,
+      missingSkills: missing,
+      improvementSteps: improvementSteps.slice(0, 3) // Top 3 steps
     };
   });
 
-  // Filter out pathways with 0 matches (or set a lower threshold if we want to show suggestions based on interests even if low skill)
-  // Let's keep those with at least 1 match or > 0 score.
-  // Actually, to provide "Gap Analysis", we might want to show high-potential pathways even if score is low,
-  // IF the user has at least one related keyword (interest).
+  // Filter out pathways with 0 matches, or keep high potential ones if user has interest
+  // For now, we want to show a broad range, so we keep anything with > 0 score.
+  // Or if score is 0 but user has strong related inputs (maybe handle later).
   const relevantPathways = matchedPathways
     .filter(p => p.matchScore > 0)
     .sort((a, b) => b.matchScore - a.matchScore);
@@ -151,9 +173,6 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
   // Remove duplicates, keep highest level
   const uniqueMonetizableSkills = new Map<string, number>();
   monetizableSkills.forEach(item => {
-     // use the matched required skill name if possible for cleaner labels, or user text
-     // Here we stick to user text for simplicity, or we could normalize.
-     // Let's use user text but dedupe by checking against existing keys.
      const key = item.text;
      if (!uniqueMonetizableSkills.has(key) || uniqueMonetizableSkills.get(key)! < item.level) {
        uniqueMonetizableSkills.set(key, item.level);
@@ -165,12 +184,9 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
     .sort((a, b) => b[1] - a[1])
     .slice(0, 6);
 
-  // If we don't have enough monetizable skills, maybe fill with top skills?
-  // Or just show what we have.
-
   const radarChartData = {
-    labels: topMonetizable.length > 0 ? topMonetizable.map(x => x[0]) : ['No Data'],
-    data: topMonetizable.length > 0 ? topMonetizable.map(x => x[1]) : [0]
+    labels: topMonetizable.length > 0 ? topMonetizable.map(x => x[0]) : ['General'],
+    data: topMonetizable.length > 0 ? topMonetizable.map(x => x[1]) : [1]
   };
 
   // Line Chart: Gap Analysis for #1 Pathway

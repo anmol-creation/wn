@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import type { AnalysisResult, MatchedPathway, UserProfile } from '../utils/analyzer';
+import { generatePDF } from '../utils/pdfGenerator';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -15,7 +16,7 @@ import {
   ArcElement,
 } from 'chart.js';
 import { Radar, Bar, Pie, Line } from 'react-chartjs-2';
-import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap, Map, FileText, LayoutDashboard } from 'lucide-react';
+import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap, Map, FileText, LayoutDashboard, Download } from 'lucide-react';
 import CareerMap from './CareerMap';
 import CareerSnapshot from './CareerSnapshot';
 
@@ -164,19 +165,28 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
              <h2 className="text-3xl font-bold text-gray-800">Your WhatNext Roadmap</h2>
              <p className="text-gray-600">Based on your unique profile analysis</p>
           </div>
-          <button
-            onClick={onReset}
-            className="mt-4 md:mt-0 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
-          >
-            Start Over
-          </button>
+          <div className="flex gap-3 mt-4 md:mt-0">
+            <button
+              onClick={() => generatePDF(results, profile)}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-sm transition-colors"
+            >
+              <Download size={18} />
+              Download Report
+            </button>
+            <button
+              onClick={onReset}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
+            >
+              Start Over
+            </button>
+          </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-full md:w-fit">
+        <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-full md:w-fit overflow-x-auto">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all whitespace-nowrap ${
               activeTab === 'overview' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -184,7 +194,7 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
           </button>
           <button
             onClick={() => setActiveTab('map')}
-            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all whitespace-nowrap ${
               activeTab === 'map' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -192,7 +202,7 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
           </button>
           <button
             onClick={() => setActiveTab('snapshot')}
-            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all ${
+            className={`flex items-center gap-2 px-6 py-2 rounded-md transition-all whitespace-nowrap ${
               activeTab === 'snapshot' ? 'bg-white shadow text-blue-600 font-medium' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -290,15 +300,35 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
                 {topPathways.slice(0, 2).map(pathway => (
                   <div key={pathway.id} className="bg-white p-6 rounded-xl shadow border border-gray-100">
                     <h4 className="font-bold text-lg mb-2 text-blue-800">{pathway.title} Roadmap</h4>
+                    <div className="mb-4">
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${
+                        pathway.readiness === 'High' ? 'bg-green-100 text-green-800' :
+                        pathway.readiness === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        Readiness: {pathway.readiness}
+                      </span>
+                    </div>
 
                     <div className="mb-4">
                       <h5 className="font-semibold text-sm text-gray-500 uppercase tracking-wider mb-2">Steps to Success</h5>
-                      <ul className="list-disc list-inside space-y-1 text-gray-700">
+                      <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
                         {pathway.roadmap.map((step, i) => (
                           <li key={i}>{step}</li>
                         ))}
                       </ul>
                     </div>
+
+                    {pathway.improvementSteps.length > 0 && (
+                       <div>
+                         <h5 className="font-semibold text-sm text-gray-500 uppercase tracking-wider mb-2">Growth Opportunities</h5>
+                         <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                           {pathway.improvementSteps.map((step, i) => (
+                             <li key={i}>{step}</li>
+                           ))}
+                         </ul>
+                       </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -335,7 +365,7 @@ const PathwayCard: React.FC<{ pathway: MatchedPathway; rank: number }> = ({ path
             <span className="text-green-600 text-sm font-semibold">{pathway.matchScore}% Match</span>
           </div>
           <h4 className="text-xl font-bold text-gray-900">{pathway.title}</h4>
-          <p className="text-gray-600 mt-1">{pathway.description}</p>
+          <p className="text-gray-600 mt-1 text-sm">{pathway.description}</p>
         </div>
         <div className="text-right hidden sm:block">
           <div className="text-sm text-gray-500">Potential</div>
