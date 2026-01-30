@@ -404,71 +404,916 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const HOBBY_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Creative & Artistic Hobbies',
+    value: 'creative_hobbies',
+    subOptions: [
+      {
+        label: 'Drawing / Painting',
+        value: 'drawing_painting',
+        subOptions: [
+          { label: 'Sketching', value: 'sketching' },
+          { label: 'Watercolor', value: 'watercolor' },
+          { label: 'Oil Painting', value: 'oil_painting' },
+          { label: 'Digital Art', value: 'digital_art' }
+        ]
+      },
+      {
+        label: 'Crafting / DIY',
+        value: 'crafting',
+        subOptions: [
+          { label: 'Knitting/Sewing', value: 'knitting' },
+          { label: 'Origami', value: 'origami' },
+          { label: 'Woodworking', value: 'woodworking' }
+        ]
+      },
+      {
+        label: 'Photography',
+        value: 'photography',
+        subOptions: [
+          { label: 'Nature Photography', value: 'nature_photo' },
+          { label: 'Portrait Photography', value: 'portrait_photo' },
+          { label: 'Street Photography', value: 'street_photo' }
+        ]
+      },
+      {
+        label: 'Writing',
+        value: 'writing_hobby',
+        subOptions: [
+          { label: 'Poetry', value: 'poetry' },
+          { label: 'Journaling', value: 'journaling' },
+          { label: 'Short Stories', value: 'short_stories' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Performance & Entertainment Hobbies',
+    value: 'performance_hobbies',
+    subOptions: [
+      {
+        label: 'Music',
+        value: 'music_hobby',
+        subOptions: [
+          { label: 'Singing', value: 'singing' },
+          { label: 'Guitar', value: 'guitar' },
+          { label: 'Piano', value: 'piano' },
+          { label: 'Drums', value: 'drums' },
+          { label: 'DJing', value: 'dj' }
+        ]
+      },
+      {
+        label: 'Dance',
+        value: 'dance_hobby',
+        subOptions: [
+          { label: 'Hip Hop', value: 'hiphop' },
+          { label: 'Classical', value: 'classical_dance' },
+          { label: 'Salsa', value: 'salsa' }
+        ]
+      },
+      {
+        label: 'Acting / Theatre',
+        value: 'acting_hobby',
+        subOptions: [
+          { label: 'Drama', value: 'drama' },
+          { label: 'Stand-up Comedy', value: 'comedy' },
+          { label: 'Mimicry', value: 'mimicry' }
+        ]
+      },
+      {
+        label: 'Gaming',
+        value: 'gaming',
+        subOptions: [
+          { label: 'PC Gaming', value: 'pc_gaming' },
+          { label: 'Console Gaming', value: 'console_gaming' },
+          { label: 'Mobile Gaming', value: 'mobile_gaming' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Outdoor & Adventure Hobbies',
+    value: 'outdoor_hobbies',
+    subOptions: [
+      {
+        label: 'Traveling',
+        value: 'traveling',
+        subOptions: [
+          { label: 'Backpacking', value: 'backpacking' },
+          { label: 'Road Trips', value: 'road_trips' },
+          { label: 'Solo Travel', value: 'solo_travel' }
+        ]
+      },
+      {
+        label: 'Trekking / Hiking',
+        value: 'trekking',
+        subOptions: [
+          { label: 'Mountain Trekking', value: 'mountain_trek' },
+          { label: 'Forest Hiking', value: 'forest_hike' }
+        ]
+      },
+      { label: 'Camping', value: 'camping' },
+      {
+        label: 'Sports',
+        value: 'sports_hobby',
+        subOptions: [
+          { label: 'Cricket', value: 'cricket' },
+          { label: 'Football', value: 'football' },
+          { label: 'Badminton', value: 'badminton' },
+          { label: 'Basketball', value: 'basketball' },
+          { label: 'Athletics', value: 'athletics' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Lifestyle & Leisure Hobbies',
+    value: 'lifestyle_hobbies',
+    subOptions: [
+      {
+        label: 'Cooking',
+        value: 'cooking_hobby',
+        subOptions: [
+          { label: 'Baking', value: 'baking' },
+          { label: 'Indian Cuisine', value: 'indian_cuisine' },
+          { label: 'Continental Cuisine', value: 'continental' },
+          { label: 'Street Food Experiments', value: 'street_food' }
+        ]
+      },
+      { label: 'Gardening', value: 'gardening' },
+      { label: 'Reading', value: 'reading' },
+      { label: 'Collecting', value: 'collecting' }
+    ]
+  },
+  {
+    label: 'Technology & Digital Hobbies',
+    value: 'tech_hobbies',
+    subOptions: [
+      {
+        label: 'Blogging',
+        value: 'blogging_hobby',
+        subOptions: [
+          { label: 'Personal Blog', value: 'personal_blog' },
+          { label: 'Tech Blog', value: 'tech_blog' },
+          { label: 'Travel Blog', value: 'travel_blog' }
+        ]
+      },
+      { label: 'Social Media Content', value: 'social_media' },
+      { label: 'Coding for Fun', value: 'coding_fun' },
+      { label: 'Video Creation', value: 'video_creation' }
+    ]
+  },
+  {
+    label: 'Mind & Wellness Hobbies',
+    value: 'wellness_hobbies',
+    subOptions: [
+      {
+        label: 'Yoga & Meditation',
+        value: 'yoga_hobby',
+        subOptions: [
+          { label: 'Asanas', value: 'asanas' },
+          { label: 'Breathing Exercises', value: 'breathing' },
+          { label: 'Mindfulness', value: 'mindfulness' }
+        ]
+      },
+      { label: 'Fitness', value: 'fitness_hobby' },
+      { label: 'Puzzle Solving', value: 'puzzles' },
+      { label: 'Chess / Board Games', value: 'board_games' }
+    ]
+  }
+];
+
+export const INTEREST_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Academic & Knowledge Interests',
+    value: 'academic_interests',
+    subOptions: [
+      {
+        label: 'Science',
+        value: 'science_interest',
+        subOptions: [
+          { label: 'Physics', value: 'physics' },
+          { label: 'Chemistry', value: 'chemistry' },
+          { label: 'Biology', value: 'biology' },
+          { label: 'Astronomy', value: 'astronomy' },
+          { label: 'Environmental Science', value: 'env_science' }
+        ]
+      },
+      { label: 'Mathematics', value: 'math_interest' },
+      { label: 'History', value: 'history_interest' },
+      { label: 'Literature', value: 'literature_interest' },
+      { label: 'Philosophy', value: 'philosophy_interest' }
+    ]
+  },
+  {
+    label: 'Technology & Innovation Interests',
+    value: 'tech_innovation',
+    subOptions: [
+      {
+        label: 'Computers & IT',
+        value: 'computers_it',
+        subOptions: [
+          { label: 'AI/ML', value: 'ai_ml' },
+          { label: 'Cybersecurity', value: 'cybersec_interest' },
+          { label: 'Blockchain', value: 'blockchain_interest' },
+          { label: 'Cloud Computing', value: 'cloud_interest' }
+        ]
+      },
+      { label: 'Gadgets', value: 'gadgets' },
+      { label: 'Robotics', value: 'robotics' },
+      {
+        label: 'Emerging Tech',
+        value: 'emerging_tech',
+        subOptions: [
+          { label: 'AR/VR', value: 'ar_vr' },
+          { label: 'IoT', value: 'iot' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Business & Finance Interests',
+    value: 'business_finance',
+    subOptions: [
+      { label: 'Entrepreneurship', value: 'entrepreneurship_interest' },
+      { label: 'Marketing', value: 'marketing_interest' },
+      {
+        label: 'Finance',
+        value: 'finance_interest',
+        subOptions: [
+          { label: 'Stock Market', value: 'stock_market' },
+          { label: 'Investments', value: 'investments' },
+          { label: 'Personal Finance', value: 'personal_finance' },
+          { label: 'Crypto', value: 'crypto' }
+        ]
+      },
+      { label: 'Economics', value: 'economics' }
+    ]
+  },
+  {
+    label: 'Creative & Artistic Interests',
+    value: 'creative_interests',
+    subOptions: [
+      {
+        label: 'Visual Arts',
+        value: 'visual_arts',
+        subOptions: [
+          { label: 'Photography', value: 'photography_interest' },
+          { label: 'Painting', value: 'painting_interest' },
+          { label: 'Sculpture', value: 'sculpture' }
+        ]
+      },
+      { label: 'Performing Arts', value: 'performing_arts_interest' },
+      { label: 'Writing', value: 'writing_interest' },
+      { label: 'Fashion & Design', value: 'fashion_design_interest' }
+    ]
+  },
+  {
+    label: 'Lifestyle & Personal Interests',
+    value: 'lifestyle_interests',
+    subOptions: [
+      {
+        label: 'Food',
+        value: 'food_interest',
+        subOptions: [
+          { label: 'Baking', value: 'baking_interest' },
+          { label: 'Indian Cuisine', value: 'indian_cuisine_interest' },
+          { label: 'World Cuisine', value: 'world_cuisine' }
+        ]
+      },
+      { label: 'Travel', value: 'travel_interest' },
+      { label: 'Fitness', value: 'fitness_interest' },
+      { label: 'Wellness', value: 'wellness_interest' }
+    ]
+  },
+  {
+    label: 'Social & Community Interests',
+    value: 'social_interests',
+    subOptions: [
+      {
+        label: 'Volunteering',
+        value: 'volunteering_interest',
+        subOptions: [
+          { label: 'NGOs', value: 'ngos' },
+          { label: 'Community Service', value: 'community_service' },
+          { label: 'Awareness Campaigns', value: 'awareness' }
+        ]
+      },
+      { label: 'Politics', value: 'politics' },
+      { label: 'Environment', value: 'environment_interest' },
+      { label: 'Education', value: 'education_interest' }
+    ]
+  },
+  {
+    label: 'Entertainment & Media Interests',
+    value: 'entertainment_interests',
+    subOptions: [
+      {
+        label: 'Movies',
+        value: 'movies_interest',
+        subOptions: [
+          { label: 'Bollywood', value: 'bollywood' },
+          { label: 'Hollywood', value: 'hollywood' },
+          { label: 'Regional Cinema', value: 'regional_cinema' }
+        ]
+      },
+      { label: 'TV Shows', value: 'tv_shows' },
+      { label: 'Gaming', value: 'gaming_interest' },
+      { label: 'Social Media', value: 'social_media_interest' }
+    ]
+  },
+  {
+    label: 'Sports & Outdoor Interests',
+    value: 'sports_interests',
+    subOptions: [
+      {
+        label: 'Team Sports',
+        value: 'team_sports',
+        subOptions: [
+          { label: 'Cricket', value: 'cricket_interest' },
+          { label: 'Football', value: 'football_interest' }
+        ]
+      },
+      {
+        label: 'Individual Sports',
+        value: 'individual_sports',
+        subOptions: [
+          { label: 'Badminton', value: 'badminton_interest' },
+          { label: 'Swimming', value: 'swimming' }
+        ]
+      },
+      {
+        label: 'Adventure',
+        value: 'adventure_sports',
+        subOptions: [
+          { label: 'Trekking', value: 'trekking_interest' }
+        ]
+      },
+      { label: 'Fitness Sports', value: 'fitness_sports' }
+    ]
+  }
+];
+
+export const ACTIVITY_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Academic & Learning Activities',
+    value: 'academic_activities',
+    subOptions: [
+      {
+        label: 'School / College Participation',
+        value: 'school_participation',
+        subOptions: [
+          { label: 'Debate Competition', value: 'debate_comp' },
+          { label: 'Science Fair Project', value: 'science_fair' },
+          { label: 'Cultural Program', value: 'cultural_program' }
+        ]
+      },
+      { label: 'Research Work', value: 'research_work' },
+      { label: 'Tutoring / Teaching', value: 'tutoring_activity' }
+    ]
+  },
+  {
+    label: 'Professional & Work Activities',
+    value: 'professional_activities',
+    subOptions: [
+      {
+        label: 'Internships',
+        value: 'internships',
+        subOptions: [
+          { label: 'Internship at Company', value: 'company_internship' }
+        ]
+      },
+      {
+        label: 'Freelancing',
+        value: 'freelancing_activity',
+        subOptions: [
+          { label: 'Freelance Video Editing', value: 'freelance_video' },
+          { label: 'Freelance Content Writing', value: 'freelance_content' }
+        ]
+      },
+      {
+        label: 'Entrepreneurship',
+        value: 'entrepreneurship_activity',
+        subOptions: [
+          { label: 'Managed Online Shop', value: 'online_shop' }
+        ]
+      },
+      { label: 'Volunteering', value: 'professional_volunteering' }
+    ]
+  },
+  {
+    label: 'Creative & Media Activities',
+    value: 'creative_activities',
+    subOptions: [
+      {
+        label: 'Content Creation',
+        value: 'content_creation_activity',
+        subOptions: [
+          { label: 'Created YouTube Channel', value: 'youtube_channel' },
+          { label: 'Started a Podcast', value: 'podcast_activity' }
+        ]
+      },
+      {
+        label: 'Media Management',
+        value: 'media_management',
+        subOptions: [
+          { label: 'Managed 200k Social Media Page', value: 'social_media_mgmt' }
+        ]
+      },
+      {
+        label: 'Art & Performance',
+        value: 'art_performance_activity',
+        subOptions: [
+          { label: 'Theatre Performance', value: 'theatre_perf' },
+          { label: 'Dance Performance', value: 'dance_perf' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Sports & Fitness Activities',
+    value: 'sports_activities',
+    subOptions: [
+      {
+        label: 'Team Sports',
+        value: 'team_sports_activity',
+        subOptions: [
+          { label: 'District Cricket Tournament', value: 'cricket_tournament' },
+          { label: 'College Football Match', value: 'football_match' }
+        ]
+      },
+      { label: 'Individual Sports', value: 'individual_sports_activity' },
+      {
+        label: 'Fitness',
+        value: 'fitness_activity',
+        subOptions: [
+          { label: 'Yoga Competition', value: 'yoga_comp' },
+          { label: 'Marathon', value: 'marathon' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Community & Social Activities',
+    value: 'community_activities',
+    subOptions: [
+      {
+        label: 'Volunteering',
+        value: 'community_volunteering',
+        subOptions: [
+          { label: 'Tree Plantation Drive', value: 'tree_plantation' },
+          { label: 'Blood Donation Camp', value: 'blood_donation' }
+        ]
+      },
+      {
+        label: 'Leadership',
+        value: 'leadership_activity',
+        subOptions: [
+          { label: 'Led Student Council', value: 'student_council' },
+          { label: 'Organized College Fest', value: 'college_fest' }
+        ]
+      },
+      { label: 'Social Work', value: 'social_work_activity' }
+    ]
+  },
+  {
+    label: 'Technology & Innovation Activities',
+    value: 'tech_activities',
+    subOptions: [
+      {
+        label: 'Hackathons',
+        value: 'hackathons',
+        subOptions: [
+          { label: 'Participated in Hackathon', value: 'hackathon_part' },
+          { label: 'Won Hackathon', value: 'hackathon_won' }
+        ]
+      },
+      {
+        label: 'App / Website Development',
+        value: 'dev_projects',
+        subOptions: [
+          { label: 'Built Mobile App', value: 'built_app' },
+          { label: 'Built Website', value: 'built_website' }
+        ]
+      },
+      {
+        label: 'Tech Projects',
+        value: 'tech_projects_activity',
+        subOptions: [
+          { label: 'Robotics Competition', value: 'robotics_comp' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Lifestyle & Personal Activities',
+    value: 'lifestyle_activities',
+    subOptions: [
+      {
+        label: 'Events',
+        value: 'events_activity',
+        subOptions: [
+          { label: 'Organized Family Event', value: 'family_event' },
+          { label: 'Photography Exhibition', value: 'photo_exhibition' }
+        ]
+      },
+      {
+        label: 'Hobby Competitions',
+        value: 'hobby_comps',
+        subOptions: [
+          { label: 'Cooking Contest', value: 'cooking_contest' }
+        ]
+      },
+      {
+        label: 'Travel',
+        value: 'travel_activity',
+        subOptions: [
+          { label: 'Travel Blog Writing', value: 'travel_blogging' }
+        ]
+      }
+    ]
+  }
+];
+
+export const SPENDING_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Basic Living Expenses',
+    value: 'living_expenses',
+    subOptions: [
+      {
+        label: 'Housing',
+        value: 'housing',
+        subOptions: [
+          { label: 'Rent', value: 'rent' },
+          { label: 'EMI', value: 'housing_emi' },
+          { label: 'Utilities (Electricity/Water)', value: 'utilities' }
+        ]
+      },
+      {
+        label: 'Food',
+        value: 'food_expenses',
+        subOptions: [
+          { label: 'Groceries', value: 'groceries' },
+          { label: 'Eating Out', value: 'eating_out' },
+          { label: 'Monthly Ration', value: 'ration' }
+        ]
+      },
+      { label: 'Transportation', value: 'transport_expense' }
+    ]
+  },
+  {
+    label: 'Education & Learning',
+    value: 'education_expenses',
+    subOptions: [
+      { label: 'Tuition Fees', value: 'tuition_fees' },
+      {
+        label: 'Courses',
+        value: 'courses_expense',
+        subOptions: [
+          { label: 'Online Course Subscription', value: 'online_courses' },
+          { label: 'Coaching Fees', value: 'coaching_fees' }
+        ]
+      },
+      {
+        label: 'Books & Study Material',
+        value: 'books_expense',
+        subOptions: [
+          { label: 'Exam Material', value: 'exam_material' },
+          { label: 'Textbooks', value: 'textbooks' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Health & Wellness',
+    value: 'health_expenses',
+    subOptions: [
+      { label: 'Medical', value: 'medical_expense', subOptions: [
+          { label: 'Medicine Expenses', value: 'medicines' },
+          { label: 'Doctor Fees', value: 'doctor_fees' }
+      ]},
+      {
+        label: 'Fitness',
+        value: 'fitness_expense',
+        subOptions: [
+          { label: 'Gym Fee', value: 'gym_fee' },
+          { label: 'Sports Equipment', value: 'sports_gear' }
+        ]
+      },
+      { label: 'Health Insurance Premium', value: 'health_insurance' }
+    ]
+  },
+  {
+    label: 'Technology & Gadgets',
+    value: 'tech_expenses',
+    subOptions: [
+      {
+        label: 'Mobile',
+        value: 'mobile_expense',
+        subOptions: [
+          { label: 'Mobile Recharge', value: 'mobile_recharge' },
+          { label: 'New Phone Purchase', value: 'new_phone' }
+        ]
+      },
+      {
+        label: 'Laptop / PC',
+        value: 'pc_expense',
+        subOptions: [
+          { label: 'Laptop Purchase', value: 'laptop_purchase' },
+          { label: 'PC Parts', value: 'pc_parts' }
+        ]
+      },
+      { label: 'Internet Bill', value: 'internet_bill' }
+    ]
+  },
+  {
+    label: 'Lifestyle & Entertainment',
+    value: 'lifestyle_expenses',
+    subOptions: [
+      {
+        label: 'Subscriptions',
+        value: 'subscriptions',
+        subOptions: [
+          { label: 'Netflix Subscription', value: 'netflix' },
+          { label: 'Spotify/Music', value: 'music_sub' }
+        ]
+      },
+      {
+        label: 'Shopping',
+        value: 'shopping_expense',
+        subOptions: [
+          { label: 'Monthly Shopping Budget', value: 'monthly_shopping' }
+        ]
+      },
+      {
+        label: 'Outings',
+        value: 'outings_expense',
+        subOptions: [
+          { label: 'Weekend Outing', value: 'weekend_outing' },
+          { label: 'Movies', value: 'movie_tickets' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Savings & Investments',
+    value: 'savings_investments',
+    subOptions: [
+      { label: 'Bank Savings', value: 'bank_savings' },
+      {
+        label: 'Investments',
+        value: 'investment_expense',
+        subOptions: [
+          { label: 'SIP Investment', value: 'sip' },
+          { label: 'Stock Market', value: 'stocks' }
+        ]
+      },
+      {
+        label: 'Insurance',
+        value: 'insurance_expense',
+        subOptions: [
+          { label: 'Insurance Premium', value: 'insurance_prem' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Social & Community',
+    value: 'social_expenses',
+    subOptions: [
+      {
+        label: 'Donations',
+        value: 'donations_expense',
+        subOptions: [
+          { label: 'Charity Donation', value: 'charity' }
+        ]
+      },
+      {
+        label: 'Events',
+        value: 'social_events_expense',
+        subOptions: [
+          { label: 'Festival Shopping', value: 'festival_shopping' },
+          { label: 'Wedding Contribution', value: 'wedding_contrib' }
+        ]
+      },
+      { label: 'Gifts', value: 'gifts_expense' }
+    ]
+  }
+];
+
+export const RESOURCE_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Financial Resources',
+    value: 'financial_resources',
+    subOptions: [
+      {
+        label: 'Personal Savings',
+        value: 'personal_savings',
+        subOptions: [
+          { label: 'Monthly Allowance', value: 'allowance' },
+          { label: 'Bank Balance', value: 'bank_balance' }
+        ]
+      },
+      {
+        label: 'Family Support',
+        value: 'family_support',
+        subOptions: [
+          { label: 'Family Financial Help', value: 'family_help' }
+        ]
+      },
+      {
+        label: 'External Funding',
+        value: 'external_funding',
+        subOptions: [
+          { label: 'Education Loan', value: 'edu_loan' },
+          { label: 'Scholarship Grant', value: 'scholarship' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Educational Resources',
+    value: 'educational_resources',
+    subOptions: [
+      {
+        label: 'Institutions',
+        value: 'institutions',
+        subOptions: [
+          { label: 'College Library Access', value: 'library_access' },
+          { label: 'Research Lab Access', value: 'lab_access' }
+        ]
+      },
+      {
+        label: 'Online Platforms',
+        value: 'online_platforms',
+        subOptions: [
+          { label: 'Online Course Subscription', value: 'course_sub' },
+          { label: 'Research Journal Access', value: 'journal_access' }
+        ]
+      },
+      {
+        label: 'Study Material',
+        value: 'study_material',
+        subOptions: [
+          { label: 'Coaching Notes', value: 'coaching_notes' },
+          { label: 'Textbooks', value: 'textbooks_resource' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Technology Resources',
+    value: 'technology_resources',
+    subOptions: [
+      {
+        label: 'Devices',
+        value: 'devices',
+        subOptions: [
+          { label: 'Personal Laptop', value: 'laptop' },
+          { label: 'Smartphone with Apps', value: 'smartphone' },
+          { label: 'Tablet', value: 'tablet' }
+        ]
+      },
+      {
+        label: 'Internet Access',
+        value: 'internet_access',
+        subOptions: [
+          { label: 'High-Speed Internet', value: 'high_speed_net' },
+          { label: 'Mobile Data', value: 'mobile_data' }
+        ]
+      },
+      {
+        label: 'Software Tools',
+        value: 'software_tools',
+        subOptions: [
+          { label: 'Licensed Software', value: 'licensed_soft' },
+          { label: 'Cloud Storage', value: 'cloud_storage' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Social & Community Resources',
+    value: 'social_resources',
+    subOptions: [
+      {
+        label: 'Family & Friends',
+        value: 'family_friends',
+        subOptions: [
+          { label: 'Peer Group Support', value: 'peer_support' },
+          { label: 'Family Guidance', value: 'family_guidance' }
+        ]
+      },
+      {
+        label: 'Mentors',
+        value: 'mentors',
+        subOptions: [
+          { label: 'Mentor Guidance', value: 'mentor_guidance' },
+          { label: 'Alumni Network', value: 'alumni_network' }
+        ]
+      },
+      {
+        label: 'Community',
+        value: 'community_resource',
+        subOptions: [
+          { label: 'NGO Assistance', value: 'ngo_help' },
+          { label: 'Online Communities', value: 'online_communities' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Professional Resources',
+    value: 'professional_resources',
+    subOptions: [
+      {
+        label: 'Work Experience',
+        value: 'work_exp_resource',
+        subOptions: [
+          { label: 'Internship Certificate', value: 'internship_cert' },
+          { label: 'Freelance Clients', value: 'freelance_clients' }
+        ]
+      },
+      {
+        label: 'Industry Connections',
+        value: 'industry_connections',
+        subOptions: [
+          { label: 'LinkedIn Network', value: 'linkedin_network' }
+        ]
+      },
+      {
+        label: 'Career Services',
+        value: 'career_services',
+        subOptions: [
+          { label: 'College Placement Cell', value: 'placement_cell' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Physical Resources',
+    value: 'physical_resources',
+    subOptions: [
+      {
+        label: 'Workspace',
+        value: 'workspace',
+        subOptions: [
+          { label: 'Personal Study Room', value: 'study_room' },
+          { label: 'Coworking Space', value: 'coworking' }
+        ]
+      },
+      {
+        label: 'Equipment',
+        value: 'equipment',
+        subOptions: [
+          { label: 'DSLR Camera', value: 'dslr' },
+          { label: 'Musical Instrument', value: 'instrument' }
+        ]
+      },
+      {
+        label: 'Transport',
+        value: 'transport_resource',
+        subOptions: [
+          { label: 'Vehicle for Travel', value: 'vehicle' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Health & Wellness Resources',
+    value: 'health_resources',
+    subOptions: [
+      {
+        label: 'Healthcare',
+        value: 'healthcare_resource',
+        subOptions: [
+          { label: 'Health Insurance Card', value: 'health_card' }
+        ]
+      },
+      {
+        label: 'Fitness',
+        value: 'fitness_resource',
+        subOptions: [
+          { label: 'Gym Membership', value: 'gym_mem' },
+          { label: 'Sports Club Access', value: 'sports_club' },
+          { label: 'Yoga Trainer', value: 'yoga_trainer' }
+        ]
+      },
+      { label: 'Nutrition', value: 'nutrition_resource' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills is now handled by SKILL_LEVELS, leaving empty here to fallback or just removing it?
-  // We keep it as a fallback or for simple text search if needed, but UI will prefer SKILL_LEVELS.
-  // Actually, let's keep a flattened version here or just leave it.
-  // The InputForm logic will check for hierarchical data first.
+  // All categories are now handled by hierarchical levels
   Skills: [],
-
-  Hobbies: [
-    'Playing Guitar', 'Playing Piano', 'Singing', 'Music Production',
-    'Drawing', 'Painting', 'Sketching', 'Digital Art',
-    'Photography', 'Videography', 'Travel', 'Blogging',
-    'Reading', 'Writing', 'Gaming', 'Cooking', 'Baking',
-    'Gardening', 'DIY & Crafts', 'Knitting', 'Sewing',
-    'Hiking', 'Camping', 'Fishing', 'Cycling', 'Running',
-    'Yoga', 'Meditation', 'Dancing', 'Acting',
-    'Volunteering', 'Mentoring', 'Collecting', 'Chess',
-    'Puzzle Solving', 'Learning Languages', 'Coding for Fun'
-  ],
-  Interests: [
-    'Artificial Intelligence', 'Machine Learning', 'Blockchain', 'Crypto',
-    'Web Development', 'Software Engineering', 'Game Development',
-    'Digital Marketing', 'Entrepreneurship', 'Startups', 'Business',
-    'Finance', 'Investing', 'Stock Market', 'Economics',
-    'Psychology', 'Philosophy', 'History', 'Politics',
-    'Science', 'Astronomy', 'Physics', 'Biology', 'Chemistry',
-    'Environmental Science', 'Sustainability', 'Climate Change',
-    'Health & Wellness', 'Fitness', 'Nutrition', 'Mental Health',
-    'Fashion', 'Design', 'Architecture', 'Interior Design',
-    'Film', 'Music', 'Literature', 'Art History'
-  ],
-  Activities: [
-    'Volunteering', 'Community Service', 'Charity Work',
-    'Team Sports', 'Individual Sports', 'Gym', 'Fitness Classes',
-    'Gaming', 'Esports', 'Streaming',
-    'Reading', 'Book Clubs', 'Library Visits',
-    'Traveling', 'Backpacking', 'Road Trips',
-    'Socializing', 'Networking', 'Attending Events', 'Conferences',
-    'Workshops', 'Seminars', 'Hackathons',
-    'Mentoring', 'Teaching', 'Tutoring',
-    'Organizing Events', 'Planning Trips', 'Photography Walks'
-  ],
-  Spending: [
-    'Online Courses', 'Workshops', 'Seminars', 'Certifications',
-    'Books', 'E-books', 'Audiobooks', 'Magazines',
-    'Gadgets', 'Tech Gear', 'Software Subscriptions', 'Apps',
-    'Travel', 'Flights', 'Accommodation', 'Experiences',
-    'Food', 'Dining Out', 'Cooking Ingredients',
-    'Entertainment', 'Movies', 'Concerts', 'Netflix', 'Spotify',
-    'Gaming', 'In-game Purchases', 'Consoles', 'PC Parts',
-    'Health', 'Gym Membership', 'Supplements', 'Sports Gear',
-    'Fashion', 'Clothing', 'Accessories',
-    'Art Supplies', 'Music Instruments', 'Camera Gear'
-  ],
-  Resources: [
-    'Laptop', 'Desktop PC', 'High-end PC', 'MacBook',
-    'Smartphone', 'Tablet', 'iPad',
-    'Camera', 'DSLR', 'Mirrorless Camera', 'Action Camera',
-    'Microphone', 'Studio Light', 'Green Screen',
-    'Internet Connection', 'High-speed WiFi', 'Mobile Data',
-    'Vehicle', 'Car', 'Bike', 'Bicycle',
-    'Quiet Workspace', 'Home Office', 'Studio Space',
-    'Tools', 'Workshop', 'Art Supplies',
-    'Savings', 'Budget for Ads', 'Network of Contacts'
-  ]
+  Hobbies: [],
+  Interests: [],
+  Activities: [],
+  Spending: [],
+  Resources: []
 };
