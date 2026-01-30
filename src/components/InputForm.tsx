@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CATEGORIES } from '../data/rules';
-import { CATEGORY_OPTIONS, EDUCATION_LEVELS, SKILL_LEVELS, HOBBY_LEVELS, INTEREST_LEVELS, type HierarchicalOption } from '../data/options';
+import { CATEGORY_OPTIONS, EDUCATION_LEVELS, SKILL_LEVELS, HOBBY_LEVELS, INTEREST_LEVELS, ACTIVITY_LEVELS, type HierarchicalOption } from '../data/options';
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -183,6 +183,8 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
       hierarchicalData = HOBBY_LEVELS;
     } else if (currentCategory === 'Interests') {
       hierarchicalData = INTEREST_LEVELS;
+    } else if (currentCategory === 'Activities') {
+      hierarchicalData = ACTIVITY_LEVELS;
     }
 
     if (hierarchicalData) {

@@ -755,26 +755,197 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const ACTIVITY_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Academic & Learning Activities',
+    value: 'academic_activities',
+    subOptions: [
+      {
+        label: 'School / College Participation',
+        value: 'school_participation',
+        subOptions: [
+          { label: 'Debate Competition', value: 'debate_comp' },
+          { label: 'Science Fair Project', value: 'science_fair' },
+          { label: 'Cultural Program', value: 'cultural_program' }
+        ]
+      },
+      { label: 'Research Work', value: 'research_work' },
+      { label: 'Tutoring / Teaching', value: 'tutoring_activity' }
+    ]
+  },
+  {
+    label: 'Professional & Work Activities',
+    value: 'professional_activities',
+    subOptions: [
+      {
+        label: 'Internships',
+        value: 'internships',
+        subOptions: [
+          { label: 'Internship at Company', value: 'company_internship' }
+        ]
+      },
+      {
+        label: 'Freelancing',
+        value: 'freelancing_activity',
+        subOptions: [
+          { label: 'Freelance Video Editing', value: 'freelance_video' },
+          { label: 'Freelance Content Writing', value: 'freelance_content' }
+        ]
+      },
+      {
+        label: 'Entrepreneurship',
+        value: 'entrepreneurship_activity',
+        subOptions: [
+          { label: 'Managed Online Shop', value: 'online_shop' }
+        ]
+      },
+      { label: 'Volunteering', value: 'professional_volunteering' }
+    ]
+  },
+  {
+    label: 'Creative & Media Activities',
+    value: 'creative_activities',
+    subOptions: [
+      {
+        label: 'Content Creation',
+        value: 'content_creation_activity',
+        subOptions: [
+          { label: 'Created YouTube Channel', value: 'youtube_channel' },
+          { label: 'Started a Podcast', value: 'podcast_activity' }
+        ]
+      },
+      {
+        label: 'Media Management',
+        value: 'media_management',
+        subOptions: [
+          { label: 'Managed 200k Social Media Page', value: 'social_media_mgmt' }
+        ]
+      },
+      {
+        label: 'Art & Performance',
+        value: 'art_performance_activity',
+        subOptions: [
+          { label: 'Theatre Performance', value: 'theatre_perf' },
+          { label: 'Dance Performance', value: 'dance_perf' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Sports & Fitness Activities',
+    value: 'sports_activities',
+    subOptions: [
+      {
+        label: 'Team Sports',
+        value: 'team_sports_activity',
+        subOptions: [
+          { label: 'District Cricket Tournament', value: 'cricket_tournament' },
+          { label: 'College Football Match', value: 'football_match' }
+        ]
+      },
+      { label: 'Individual Sports', value: 'individual_sports_activity' },
+      {
+        label: 'Fitness',
+        value: 'fitness_activity',
+        subOptions: [
+          { label: 'Yoga Competition', value: 'yoga_comp' },
+          { label: 'Marathon', value: 'marathon' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Community & Social Activities',
+    value: 'community_activities',
+    subOptions: [
+      {
+        label: 'Volunteering',
+        value: 'community_volunteering',
+        subOptions: [
+          { label: 'Tree Plantation Drive', value: 'tree_plantation' },
+          { label: 'Blood Donation Camp', value: 'blood_donation' }
+        ]
+      },
+      {
+        label: 'Leadership',
+        value: 'leadership_activity',
+        subOptions: [
+          { label: 'Led Student Council', value: 'student_council' },
+          { label: 'Organized College Fest', value: 'college_fest' }
+        ]
+      },
+      { label: 'Social Work', value: 'social_work_activity' }
+    ]
+  },
+  {
+    label: 'Technology & Innovation Activities',
+    value: 'tech_activities',
+    subOptions: [
+      {
+        label: 'Hackathons',
+        value: 'hackathons',
+        subOptions: [
+          { label: 'Participated in Hackathon', value: 'hackathon_part' },
+          { label: 'Won Hackathon', value: 'hackathon_won' }
+        ]
+      },
+      {
+        label: 'App / Website Development',
+        value: 'dev_projects',
+        subOptions: [
+          { label: 'Built Mobile App', value: 'built_app' },
+          { label: 'Built Website', value: 'built_website' }
+        ]
+      },
+      {
+        label: 'Tech Projects',
+        value: 'tech_projects_activity',
+        subOptions: [
+          { label: 'Robotics Competition', value: 'robotics_comp' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Lifestyle & Personal Activities',
+    value: 'lifestyle_activities',
+    subOptions: [
+      {
+        label: 'Events',
+        value: 'events_activity',
+        subOptions: [
+          { label: 'Organized Family Event', value: 'family_event' },
+          { label: 'Photography Exhibition', value: 'photo_exhibition' }
+        ]
+      },
+      {
+        label: 'Hobby Competitions',
+        value: 'hobby_comps',
+        subOptions: [
+          { label: 'Cooking Contest', value: 'cooking_contest' }
+        ]
+      },
+      {
+        label: 'Travel',
+        value: 'travel_activity',
+        subOptions: [
+          { label: 'Travel Blog Writing', value: 'travel_blogging' }
+        ]
+      }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills, Hobbies, and Interests are now handled by SKILL_LEVELS, HOBBY_LEVELS, and INTEREST_LEVELS
+  // Skills, Hobbies, Interests, and Activities are now handled by SKILL_LEVELS, HOBBY_LEVELS, INTEREST_LEVELS, and ACTIVITY_LEVELS
   Skills: [],
   Hobbies: [],
   Interests: [],
+  Activities: [],
 
-  Activities: [
-    'Volunteering', 'Community Service', 'Charity Work',
-    'Team Sports', 'Individual Sports', 'Gym', 'Fitness Classes',
-    'Gaming', 'Esports', 'Streaming',
-    'Reading', 'Book Clubs', 'Library Visits',
-    'Traveling', 'Backpacking', 'Road Trips',
-    'Socializing', 'Networking', 'Attending Events', 'Conferences',
-    'Workshops', 'Seminars', 'Hackathons',
-    'Mentoring', 'Teaching', 'Tutoring',
-    'Organizing Events', 'Planning Trips', 'Photography Walks'
-  ],
   Spending: [
     'Online Courses', 'Workshops', 'Seminars', 'Certifications',
     'Books', 'E-books', 'Audiobooks', 'Magazines',
