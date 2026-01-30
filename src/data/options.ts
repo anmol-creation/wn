@@ -1102,26 +1102,218 @@ export const SPENDING_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const RESOURCE_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Financial Resources',
+    value: 'financial_resources',
+    subOptions: [
+      {
+        label: 'Personal Savings',
+        value: 'personal_savings',
+        subOptions: [
+          { label: 'Monthly Allowance', value: 'allowance' },
+          { label: 'Bank Balance', value: 'bank_balance' }
+        ]
+      },
+      {
+        label: 'Family Support',
+        value: 'family_support',
+        subOptions: [
+          { label: 'Family Financial Help', value: 'family_help' }
+        ]
+      },
+      {
+        label: 'External Funding',
+        value: 'external_funding',
+        subOptions: [
+          { label: 'Education Loan', value: 'edu_loan' },
+          { label: 'Scholarship Grant', value: 'scholarship' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Educational Resources',
+    value: 'educational_resources',
+    subOptions: [
+      {
+        label: 'Institutions',
+        value: 'institutions',
+        subOptions: [
+          { label: 'College Library Access', value: 'library_access' },
+          { label: 'Research Lab Access', value: 'lab_access' }
+        ]
+      },
+      {
+        label: 'Online Platforms',
+        value: 'online_platforms',
+        subOptions: [
+          { label: 'Online Course Subscription', value: 'course_sub' },
+          { label: 'Research Journal Access', value: 'journal_access' }
+        ]
+      },
+      {
+        label: 'Study Material',
+        value: 'study_material',
+        subOptions: [
+          { label: 'Coaching Notes', value: 'coaching_notes' },
+          { label: 'Textbooks', value: 'textbooks_resource' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Technology Resources',
+    value: 'technology_resources',
+    subOptions: [
+      {
+        label: 'Devices',
+        value: 'devices',
+        subOptions: [
+          { label: 'Personal Laptop', value: 'laptop' },
+          { label: 'Smartphone with Apps', value: 'smartphone' },
+          { label: 'Tablet', value: 'tablet' }
+        ]
+      },
+      {
+        label: 'Internet Access',
+        value: 'internet_access',
+        subOptions: [
+          { label: 'High-Speed Internet', value: 'high_speed_net' },
+          { label: 'Mobile Data', value: 'mobile_data' }
+        ]
+      },
+      {
+        label: 'Software Tools',
+        value: 'software_tools',
+        subOptions: [
+          { label: 'Licensed Software', value: 'licensed_soft' },
+          { label: 'Cloud Storage', value: 'cloud_storage' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Social & Community Resources',
+    value: 'social_resources',
+    subOptions: [
+      {
+        label: 'Family & Friends',
+        value: 'family_friends',
+        subOptions: [
+          { label: 'Peer Group Support', value: 'peer_support' },
+          { label: 'Family Guidance', value: 'family_guidance' }
+        ]
+      },
+      {
+        label: 'Mentors',
+        value: 'mentors',
+        subOptions: [
+          { label: 'Mentor Guidance', value: 'mentor_guidance' },
+          { label: 'Alumni Network', value: 'alumni_network' }
+        ]
+      },
+      {
+        label: 'Community',
+        value: 'community_resource',
+        subOptions: [
+          { label: 'NGO Assistance', value: 'ngo_help' },
+          { label: 'Online Communities', value: 'online_communities' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Professional Resources',
+    value: 'professional_resources',
+    subOptions: [
+      {
+        label: 'Work Experience',
+        value: 'work_exp_resource',
+        subOptions: [
+          { label: 'Internship Certificate', value: 'internship_cert' },
+          { label: 'Freelance Clients', value: 'freelance_clients' }
+        ]
+      },
+      {
+        label: 'Industry Connections',
+        value: 'industry_connections',
+        subOptions: [
+          { label: 'LinkedIn Network', value: 'linkedin_network' }
+        ]
+      },
+      {
+        label: 'Career Services',
+        value: 'career_services',
+        subOptions: [
+          { label: 'College Placement Cell', value: 'placement_cell' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Physical Resources',
+    value: 'physical_resources',
+    subOptions: [
+      {
+        label: 'Workspace',
+        value: 'workspace',
+        subOptions: [
+          { label: 'Personal Study Room', value: 'study_room' },
+          { label: 'Coworking Space', value: 'coworking' }
+        ]
+      },
+      {
+        label: 'Equipment',
+        value: 'equipment',
+        subOptions: [
+          { label: 'DSLR Camera', value: 'dslr' },
+          { label: 'Musical Instrument', value: 'instrument' }
+        ]
+      },
+      {
+        label: 'Transport',
+        value: 'transport_resource',
+        subOptions: [
+          { label: 'Vehicle for Travel', value: 'vehicle' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Health & Wellness Resources',
+    value: 'health_resources',
+    subOptions: [
+      {
+        label: 'Healthcare',
+        value: 'healthcare_resource',
+        subOptions: [
+          { label: 'Health Insurance Card', value: 'health_card' }
+        ]
+      },
+      {
+        label: 'Fitness',
+        value: 'fitness_resource',
+        subOptions: [
+          { label: 'Gym Membership', value: 'gym_mem' },
+          { label: 'Sports Club Access', value: 'sports_club' },
+          { label: 'Yoga Trainer', value: 'yoga_trainer' }
+        ]
+      },
+      { label: 'Nutrition', value: 'nutrition_resource' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills, Hobbies, Interests, Activities, and Spending are now handled by hierarchical levels
+  // All categories are now handled by hierarchical levels
   Skills: [],
   Hobbies: [],
   Interests: [],
   Activities: [],
   Spending: [],
-
-  Resources: [
-    'Laptop', 'Desktop PC', 'High-end PC', 'MacBook',
-    'Smartphone', 'Tablet', 'iPad',
-    'Camera', 'DSLR', 'Mirrorless Camera', 'Action Camera',
-    'Microphone', 'Studio Light', 'Green Screen',
-    'Internet Connection', 'High-speed WiFi', 'Mobile Data',
-    'Vehicle', 'Car', 'Bike', 'Bicycle',
-    'Quiet Workspace', 'Home Office', 'Studio Space',
-    'Tools', 'Workshop', 'Art Supplies',
-    'Savings', 'Budget for Ads', 'Network of Contacts'
-  ]
+  Resources: []
 };
