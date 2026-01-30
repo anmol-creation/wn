@@ -936,28 +936,183 @@ export const ACTIVITY_LEVELS: HierarchicalOption[] = [
   }
 ];
 
+export const SPENDING_LEVELS: HierarchicalOption[] = [
+  {
+    label: 'Basic Living Expenses',
+    value: 'living_expenses',
+    subOptions: [
+      {
+        label: 'Housing',
+        value: 'housing',
+        subOptions: [
+          { label: 'Rent', value: 'rent' },
+          { label: 'EMI', value: 'housing_emi' },
+          { label: 'Utilities (Electricity/Water)', value: 'utilities' }
+        ]
+      },
+      {
+        label: 'Food',
+        value: 'food_expenses',
+        subOptions: [
+          { label: 'Groceries', value: 'groceries' },
+          { label: 'Eating Out', value: 'eating_out' },
+          { label: 'Monthly Ration', value: 'ration' }
+        ]
+      },
+      { label: 'Transportation', value: 'transport_expense' }
+    ]
+  },
+  {
+    label: 'Education & Learning',
+    value: 'education_expenses',
+    subOptions: [
+      { label: 'Tuition Fees', value: 'tuition_fees' },
+      {
+        label: 'Courses',
+        value: 'courses_expense',
+        subOptions: [
+          { label: 'Online Course Subscription', value: 'online_courses' },
+          { label: 'Coaching Fees', value: 'coaching_fees' }
+        ]
+      },
+      {
+        label: 'Books & Study Material',
+        value: 'books_expense',
+        subOptions: [
+          { label: 'Exam Material', value: 'exam_material' },
+          { label: 'Textbooks', value: 'textbooks' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Health & Wellness',
+    value: 'health_expenses',
+    subOptions: [
+      { label: 'Medical', value: 'medical_expense', subOptions: [
+          { label: 'Medicine Expenses', value: 'medicines' },
+          { label: 'Doctor Fees', value: 'doctor_fees' }
+      ]},
+      {
+        label: 'Fitness',
+        value: 'fitness_expense',
+        subOptions: [
+          { label: 'Gym Fee', value: 'gym_fee' },
+          { label: 'Sports Equipment', value: 'sports_gear' }
+        ]
+      },
+      { label: 'Health Insurance Premium', value: 'health_insurance' }
+    ]
+  },
+  {
+    label: 'Technology & Gadgets',
+    value: 'tech_expenses',
+    subOptions: [
+      {
+        label: 'Mobile',
+        value: 'mobile_expense',
+        subOptions: [
+          { label: 'Mobile Recharge', value: 'mobile_recharge' },
+          { label: 'New Phone Purchase', value: 'new_phone' }
+        ]
+      },
+      {
+        label: 'Laptop / PC',
+        value: 'pc_expense',
+        subOptions: [
+          { label: 'Laptop Purchase', value: 'laptop_purchase' },
+          { label: 'PC Parts', value: 'pc_parts' }
+        ]
+      },
+      { label: 'Internet Bill', value: 'internet_bill' }
+    ]
+  },
+  {
+    label: 'Lifestyle & Entertainment',
+    value: 'lifestyle_expenses',
+    subOptions: [
+      {
+        label: 'Subscriptions',
+        value: 'subscriptions',
+        subOptions: [
+          { label: 'Netflix Subscription', value: 'netflix' },
+          { label: 'Spotify/Music', value: 'music_sub' }
+        ]
+      },
+      {
+        label: 'Shopping',
+        value: 'shopping_expense',
+        subOptions: [
+          { label: 'Monthly Shopping Budget', value: 'monthly_shopping' }
+        ]
+      },
+      {
+        label: 'Outings',
+        value: 'outings_expense',
+        subOptions: [
+          { label: 'Weekend Outing', value: 'weekend_outing' },
+          { label: 'Movies', value: 'movie_tickets' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Savings & Investments',
+    value: 'savings_investments',
+    subOptions: [
+      { label: 'Bank Savings', value: 'bank_savings' },
+      {
+        label: 'Investments',
+        value: 'investment_expense',
+        subOptions: [
+          { label: 'SIP Investment', value: 'sip' },
+          { label: 'Stock Market', value: 'stocks' }
+        ]
+      },
+      {
+        label: 'Insurance',
+        value: 'insurance_expense',
+        subOptions: [
+          { label: 'Insurance Premium', value: 'insurance_prem' }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Social & Community',
+    value: 'social_expenses',
+    subOptions: [
+      {
+        label: 'Donations',
+        value: 'donations_expense',
+        subOptions: [
+          { label: 'Charity Donation', value: 'charity' }
+        ]
+      },
+      {
+        label: 'Events',
+        value: 'social_events_expense',
+        subOptions: [
+          { label: 'Festival Shopping', value: 'festival_shopping' },
+          { label: 'Wedding Contribution', value: 'wedding_contrib' }
+        ]
+      },
+      { label: 'Gifts', value: 'gifts_expense' }
+    ]
+  }
+];
+
 // Re-export this for backward compatibility if needed, though we will remove usage
 export const EDUCATION_SUB_OPTIONS = [];
 
 export const CATEGORY_OPTIONS: Record<string, string[]> = {
-  // Skills, Hobbies, Interests, and Activities are now handled by SKILL_LEVELS, HOBBY_LEVELS, INTEREST_LEVELS, and ACTIVITY_LEVELS
+  // Skills, Hobbies, Interests, Activities, and Spending are now handled by hierarchical levels
   Skills: [],
   Hobbies: [],
   Interests: [],
   Activities: [],
+  Spending: [],
 
-  Spending: [
-    'Online Courses', 'Workshops', 'Seminars', 'Certifications',
-    'Books', 'E-books', 'Audiobooks', 'Magazines',
-    'Gadgets', 'Tech Gear', 'Software Subscriptions', 'Apps',
-    'Travel', 'Flights', 'Accommodation', 'Experiences',
-    'Food', 'Dining Out', 'Cooking Ingredients',
-    'Entertainment', 'Movies', 'Concerts', 'Netflix', 'Spotify',
-    'Gaming', 'In-game Purchases', 'Consoles', 'PC Parts',
-    'Health', 'Gym Membership', 'Supplements', 'Sports Gear',
-    'Fashion', 'Clothing', 'Accessories',
-    'Art Supplies', 'Music Instruments', 'Camera Gear'
-  ],
   Resources: [
     'Laptop', 'Desktop PC', 'High-end PC', 'MacBook',
     'Smartphone', 'Tablet', 'iPad',
