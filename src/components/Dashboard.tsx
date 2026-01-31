@@ -62,7 +62,7 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
     scales: {
         y: {
             beginAtZero: true,
-            max: 3.5,
+            max: 4.5,
             ticks: {
                 stepSize: 1
             }
@@ -116,7 +116,7 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
           display: false
         },
         suggestedMin: 0,
-        suggestedMax: 3
+        suggestedMax: 4
       }
     }
   };
@@ -147,7 +147,7 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
         scales: {
             y: {
                 beginAtZero: true,
-                max: 3.5,
+                max: 4.5,
                 ticks: {
                     stepSize: 1
                 }

@@ -4,7 +4,10 @@ import { EARNING_PATHWAYS, type Pathway, SKILL_LEVELS, IMPROVEMENT_RESOURCES } f
 export interface UserInputItem {
   id: string; // unique id for list rendering
   text: string;
-  level: number; // 1 = Beginner, 2 = Intermediate, 3 = Advanced
+  level: number; // 1 = Beginner, 2 = Intermediate, 3 = Advanced, 4 = Expert
+  value?: string; // Optional value from options.ts
+  details?: string[]; // Checked items from detail card
+  rawScore?: number; // Raw score from detail card
 }
 
 export interface UserProfile {

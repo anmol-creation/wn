@@ -2,6 +2,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import type { AnalysisResult, UserProfile } from './analyzer';
+import { getSkillDetails, getSkillLevel } from '../data/skillDetails';
 
 export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
   const doc = new jsPDF();
@@ -43,10 +44,68 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
     columnStyles: { 0: { fontStyle: 'bold', cellWidth: 40 } },
   });
 
+  // --- Skill Detailed Assessment ---
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let nextY = (doc as any).lastAutoTable.finalY + 15;
+
+  if (profile.Skills.length > 0) {
+      doc.setFontSize(16);
+      doc.setTextColor(0);
+      doc.text('Skill Proficiency Assessment', 14, nextY);
+
+      const skillRows = profile.Skills.map(skill => {
+          const { label } = getSkillLevel(skill.rawScore || 0);
+          const details = getSkillDetails(skill.value || '', skill.text);
+          const totalItems = details.reduce((acc, grp) => acc + grp.items.length, 0);
+          const score = skill.rawScore || 0;
+          const percentage = totalItems > 0 ? Math.round((score / totalItems) * 100) : 0;
+
+          // Generate visual bar [*****-----]
+          const barLength = 10;
+          const filled = Math.round((percentage / 100) * barLength);
+          const bar = '[' + '#'.repeat(filled) + '-'.repeat(barLength - filled) + ']';
+
+          // Suggestion
+          let suggestion = 'Practice regularly';
+          if (percentage < 100 && skill.details) {
+              // Find first missing item
+              for (const group of details) {
+                  const missing = group.items.find(i => !skill.details?.includes(i));
+                  if (missing) {
+                      suggestion = `Learn: ${missing} (${group.category})`;
+                      break;
+                  }
+              }
+          }
+
+          return [skill.text, `${label} (${percentage}%)`, bar, suggestion];
+      });
+
+      autoTable(doc, {
+        startY: nextY + 5,
+        head: [['Skill', 'Proficiency', 'Visualization', 'Suggestion']],
+        body: skillRows,
+        theme: 'grid',
+        headStyles: { fillColor: [142, 68, 173] }, // Purple
+        styles: { fontSize: 10 },
+        columnStyles: {
+            2: { font: 'courier' } // Monospace for bar alignment
+        }
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      nextY = (doc as any).lastAutoTable.finalY + 15;
+  }
+
   // --- Top Opportunities ---
-  const finalY = (doc as any).lastAutoTable.finalY || 150;
+  // Check page break
+  if (nextY > 250) {
+      doc.addPage();
+      nextY = 20;
+  }
+
   doc.setFontSize(16);
-  doc.text('Top Earning Pathways', 14, finalY + 15);
+  doc.text('Top Earning Pathways', 14, nextY);
 
   const opportunitiesData = results.topPathways.slice(0, 5).map(p => [
     p.title,
@@ -57,7 +116,7 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
   ]);
 
   autoTable(doc, {
-    startY: finalY + 20,
+    startY: nextY + 5,
     head: [['Pathway', 'Match', 'Level', 'Timeline', 'Potential']],
     body: opportunitiesData,
     theme: 'striped',
@@ -65,6 +124,7 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
   });
 
   // --- Action Plan (Top 2) ---
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let currentY = (doc as any).lastAutoTable.finalY + 15;
 
   // Check page break
