@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getSkillDetails, getSkillLevel } from '../data/skillDetails';
-import { Check, Star, Trophy, Award, Zap } from 'lucide-react';
+import { Check, Star, Trophy, Award, Zap, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface Props {
   skillValue: string;
@@ -12,6 +12,7 @@ interface Props {
 const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelectedItems = [], onUpdate }) => {
   const details = useMemo(() => getSkillDetails(skillValue, skillLabel), [skillValue, skillLabel]);
   const [selectedItems, setSelectedItems] = useState<string[]>(initialSelectedItems);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>(details.map(g => g.category)); // All expanded by default
 
   // Notify parent whenever selection changes
   useEffect(() => {
@@ -19,12 +20,37 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
     const totalItems = details.reduce((acc, group) => acc + group.items.length, 0);
     const { level } = getSkillLevel(score, totalItems, selectedItems, details);
     onUpdate(score, level, selectedItems);
-  }, [selectedItems, details, onUpdate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItems, details]);
 
   const toggleItem = (item: string) => {
     setSelectedItems(prev =>
       prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
     );
+  };
+
+  const toggleGroupExpand = (category: string) => {
+    setExpandedGroups(prev =>
+      prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]
+    );
+  };
+
+  const toggleGroupSelect = (categoryItems: string[]) => {
+    const allSelected = categoryItems.every(item => selectedItems.includes(item));
+
+    if (allSelected) {
+      // Uncheck all
+      setSelectedItems(prev => prev.filter(item => !categoryItems.includes(item)));
+    } else {
+      // Check all (add missing ones)
+      setSelectedItems(prev => {
+        const newItems = [...prev];
+        categoryItems.forEach(item => {
+          if (!newItems.includes(item)) newItems.push(item);
+        });
+        return newItems;
+      });
+    }
   };
 
   const currentScore = selectedItems.length;
@@ -52,7 +78,7 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
   };
 
   return (
-    <div className="mt-3 ml-1 bg-gray-50 rounded-lg border border-gray-200 p-4 shadow-inner">
+    <div className="mt-3 bg-white rounded-lg border border-gray-200 p-4 shadow-sm w-full">
       <div className="flex justify-between items-center mb-4 border-b pb-2">
         <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
           Proficiency Checklist
@@ -63,42 +89,71 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
         </div>
       </div>
 
-      <div className="space-y-4">
-        {details.map((group, idx) => (
-          <div key={idx}>
-            <h5 className="text-xs font-semibold text-gray-500 mb-2 uppercase">{group.category}</h5>
-            <div className="flex flex-wrap gap-2">
-              {group.items.map(item => {
-                const isChecked = selectedItems.includes(item);
-                return (
-                  <label
-                    key={item}
-                    className={`
-                      cursor-pointer px-3 py-1.5 rounded text-sm border transition-all select-none flex items-center gap-2
-                      ${isChecked
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                        : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
-                      }
-                    `}
-                  >
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      checked={isChecked}
-                      onChange={() => toggleItem(item)}
-                    />
-                    {isChecked && <Check size={12} />}
-                    {item}
-                  </label>
-                );
-              })}
+      <div className="space-y-3">
+        {details.map((group, idx) => {
+          const isExpanded = expandedGroups.includes(group.category);
+          const allChecked = group.items.length > 0 && group.items.every(i => selectedItems.includes(i));
+
+          return (
+            <div key={idx} className="border rounded-md border-gray-100 overflow-hidden">
+              {/* Group Header - Dropdown Style */}
+              <div
+                className="flex items-center justify-between p-3 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors select-none"
+                onClick={() => toggleGroupExpand(group.category)}
+              >
+                <div className="flex items-center gap-3">
+                   <button
+                     onClick={(e) => { e.stopPropagation(); toggleGroupSelect(group.items); }}
+                     className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${allChecked ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white border-gray-300 text-transparent hover:border-blue-400'}`}
+                     title={allChecked ? "Uncheck all in group" : "Check all in group"}
+                   >
+                     <Check size={14} />
+                   </button>
+                   <span className="font-semibold text-gray-700 text-sm">{group.category}</span>
+                </div>
+                <div className="text-gray-400">
+                  {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                </div>
+              </div>
+
+              {/* Group Content */}
+              {isExpanded && (
+                <div className="p-3 bg-white border-t border-gray-100">
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map(item => {
+                      const isChecked = selectedItems.includes(item);
+                      return (
+                        <label
+                          key={item}
+                          className={`
+                            cursor-pointer px-3 py-1.5 rounded text-sm border transition-all select-none flex items-center gap-2
+                            ${isChecked
+                              ? 'bg-blue-50 text-blue-700 border-blue-200'
+                              : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                            }
+                          `}
+                        >
+                          <input
+                            type="checkbox"
+                            className="hidden"
+                            checked={isChecked}
+                            onChange={() => toggleItem(item)}
+                          />
+                          {isChecked && <Check size={12} />}
+                          {item}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <p className="text-xs text-gray-400 mt-4 text-center">
-        Select all that apply to calculate your accurate skill level.
+        Tip: Use the checkbox next to category names to select all items.
       </p>
     </div>
   );
