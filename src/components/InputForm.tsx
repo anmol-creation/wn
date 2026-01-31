@@ -4,6 +4,7 @@ import { CATEGORY_OPTIONS, EDUCATION_LEVELS, SKILL_LEVELS, HOBBY_LEVELS, INTERES
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import SkillDetailCard from './SkillDetailCard';
+import { getSkillDetails } from '../data/skillDetails';
 
 interface Props {
   onAnalyze: (profile: UserProfile) => void;
@@ -56,14 +57,21 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
       }
       // Adding item
       else {
-        newProfile[currentCategory] = [
-          ...currentList,
-          { id: `${currentCategory}-${text}`, text, level, value }
-        ];
+        let newItem = { id: `${currentCategory}-${text}`, text, level, value };
 
         // Auto-Selection Logic: If adding a Skill, check Hobbies and Interests
         if (currentCategory === 'Skills' && value) {
-          // Check Hobbies
+          // 1. Auto-fill details for Skill
+          const detailsDef = getSkillDetails(value, text);
+          const allItems = detailsDef.flatMap(g => g.items);
+          newItem = {
+            ...newItem,
+            // @ts-expect-error - Adding dynamic property
+            details: allItems,
+            rawScore: allItems.length
+          };
+
+          // 2. Check Hobbies
           const hobbyMatch = findOptionInHierarchy(HOBBY_LEVELS, value, text);
           if (hobbyMatch) {
              const hobbyExists = newProfile.Hobbies.some(h => h.text === hobbyMatch.label);
@@ -87,6 +95,8 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
              }
           }
         }
+
+        newProfile[currentCategory] = [...currentList, newItem];
       }
       return newProfile;
     });
@@ -201,16 +211,6 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
                </button>
              )}
           </div>
-        )}
-
-        {/* Render Skill Detail Card if selected and no sub-options */}
-        {selected && currentCategory === 'Skills' && !hasSub && (
-          <SkillDetailCard
-            skillValue={option.value}
-            skillLabel={option.label}
-            initialSelectedItems={profile.Skills.find(s => s.text === option.label)?.details}
-            onUpdate={(score, level, details) => updateSkillDetails(option.label, score, level, details)}
-          />
         )}
 
         {/* Render Children */}
@@ -352,9 +352,27 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
       </div>
 
       {/* Options List */}
-      <div className="flex-grow mb-8 overflow-hidden flex flex-col">
+      <div className="flex-grow mb-4 overflow-hidden flex flex-col">
         {renderOptions()}
       </div>
+
+      {/* Selected Skills Section */}
+      {currentCategory === 'Skills' && profile.Skills.length > 0 && (
+        <div className="mb-8 border-t pt-4">
+          <h3 className="text-lg font-bold text-gray-800 mb-3">Selected Skills</h3>
+          <div className="space-y-4">
+            {profile.Skills.map(skill => (
+              <SkillDetailCard
+                key={skill.id}
+                skillValue={skill.value || ''}
+                skillLabel={skill.text}
+                initialSelectedItems={skill.details}
+                onUpdate={(score, level, items) => updateSkillDetails(skill.text, score, level, items)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Navigation */}
       <div className="flex justify-between mt-auto pt-6 border-t border-gray-100">

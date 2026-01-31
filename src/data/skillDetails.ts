@@ -35,7 +35,7 @@ export const getSkillLevel = (score: number, totalItems: number, selectedItems: 
 
   // Hybrid Naming Logic
   // Identify if user has selected items from 'Advanced' or 'Expert' categories
-  const advancedKeywords = ['advanced', 'expert', 'complex', 'innovation', 'strategy', 'meta & seo', 'security'];
+  const advancedKeywords = ['advanced', 'expert', 'complex', 'innovation', 'strategy', 'meta & seo', 'security', 'async'];
   const advancedItems = new Set<string>();
 
   details.forEach(group => {
@@ -63,7 +63,7 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
   'html': [
     {
       category: 'Editors (Tools)',
-      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm', 'Acode (Mobile)', 'Spck Editor', 'Dcoder', 'Quoda']
+      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm', 'Acode', 'Spck Editor', 'Dcoder', 'Quoda']
     },
     {
       category: 'Devices (Environment)',
@@ -75,14 +75,14 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
     },
     {
       category: 'Text Formatting',
-      items: ['<h1> to <h6>', '<p>', '<b> / <strong>', '<i> / <em>', '<br>', '<hr>']
+      items: ['<h1> to <h6>', '<p>', '<b>', '<i>', '<br>', '<hr>', '<strong>', '<em>']
     },
     {
-      category: 'Media Tags',
+      category: 'Media',
       items: ['<img>', '<audio>', '<video>', '<source>', '<track>']
     },
     {
-      category: 'Links & Navigation',
+      category: 'Links',
       items: ['<a>', '<nav>', '<link>', 'target="_blank"']
     },
     {
@@ -90,15 +90,11 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
       items: ['<form>', '<input>', '<textarea>', '<button>', '<select>/<option>', '<label>', 'Input Types (text, email, password)']
     },
     {
-      category: 'Layout & Semantics',
+      category: 'Layout',
       items: ['<div>', '<span>', '<section>', '<article>', '<header>', '<footer>', '<main>', '<aside>']
     },
     {
-      category: 'Tables & Lists',
-      items: ['<table>', '<tr>', '<td>', '<th>', '<ul>', '<ol>', '<li>']
-    },
-    {
-      category: 'Meta & SEO',
+      category: 'SEO',
       items: ['<meta>', '<title>', 'Meta Description', 'Viewport Settings', 'Favicon']
     }
   ],
