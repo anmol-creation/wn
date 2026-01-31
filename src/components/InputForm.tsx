@@ -3,6 +3,7 @@ import { CATEGORIES } from '../data/rules';
 import { CATEGORY_OPTIONS, EDUCATION_LEVELS, SKILL_LEVELS, HOBBY_LEVELS, INTEREST_LEVELS, ACTIVITY_LEVELS, SPENDING_LEVELS, RESOURCE_LEVELS, type HierarchicalOption } from '../data/options';
 import { type UserProfile } from '../utils/analyzer';
 import { Search, ArrowRight, ChevronLeft, Check, ChevronDown, ChevronUp } from 'lucide-react';
+import SkillDetailCard from './SkillDetailCard';
 
 interface Props {
   onAnalyze: (profile: UserProfile) => void;
@@ -28,7 +29,7 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
   const currentCategory = CATEGORIES[currentCategoryIndex];
 
   // Logic to toggle items
-  const toggleItem = (text: string, level: number = 1) => {
+  const toggleItem = (text: string, value?: string, level: number = 1) => {
     setProfile(prev => {
       const currentList = prev[currentCategory];
       const exists = currentList.find(item => item.text === text);
@@ -42,10 +43,22 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
           ...prev,
           [currentCategory]: [
             ...currentList,
-            { id: `${currentCategory}-${text}`, text, level }
+            { id: `${currentCategory}-${text}`, text, level, value }
           ]
         };
       }
+    });
+  };
+
+  const updateSkillDetails = (text: string, score: number, level: number, details: string[]) => {
+    setProfile(prev => {
+      const currentList = prev.Skills;
+      const updatedList = currentList.map(item =>
+        item.text === text
+          ? { ...item, level, rawScore: score, details }
+          : item
+      );
+      return { ...prev, Skills: updatedList };
     });
   };
 
@@ -115,7 +128,7 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
                 type="checkbox"
                 className="hidden"
                 checked={selected}
-                onChange={() => toggleItem(option.label)}
+                onChange={() => toggleItem(option.label, option.value)}
               />
               <span className="text-gray-700 font-medium">{option.label}</span>
            </label>
@@ -132,6 +145,16 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
              </button>
            )}
         </div>
+
+        {/* Render Skill Detail Card if selected and no sub-options */}
+        {selected && currentCategory === 'Skills' && !hasSub && (
+          <SkillDetailCard
+            skillValue={option.value}
+            skillLabel={option.label}
+            initialSelectedItems={profile.Skills.find(s => s.text === option.label)?.details}
+            onUpdate={(score, level, details) => updateSkillDetails(option.label, score, level, details)}
+          />
+        )}
 
         {/* Render Children */}
         {hasSub && isExpanded && (

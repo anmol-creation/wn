@@ -1,10 +1,15 @@
 
 import { EARNING_PATHWAYS, type Pathway, SKILL_LEVELS, IMPROVEMENT_RESOURCES } from '../data/rules';
+import { getHobbyPotential } from '../data/hobbyRules';
+import { getSkillDetails } from '../data/skillDetails';
 
 export interface UserInputItem {
   id: string; // unique id for list rendering
   text: string;
-  level: number; // 1 = Beginner, 2 = Intermediate, 3 = Advanced
+  level: number; // 1 = Beginner, 2 = Intermediate, 3 = Advanced, 4 = Expert
+  value?: string; // Optional value from options.ts
+  details?: string[]; // Checked items from detail card
+  rawScore?: number; // Raw score from detail card
 }
 
 export interface UserProfile {
@@ -34,6 +39,14 @@ export interface ChartData {
   data: number[];
 }
 
+export interface BubbleChartData {
+  datasets: {
+    label: string;
+    data: { x: number; y: number; r: number }[];
+    backgroundColor: string;
+  }[];
+}
+
 export interface GapAnalysisData {
   labels: string[];
   currentLevels: number[];
@@ -49,6 +62,8 @@ export interface AnalysisResult {
   barChartData: ChartData;
   pieChartData: ChartData;
   radarChartData: ChartData;
+  hobbyBubbleData: BubbleChartData;
+  interestTags: string[];
   gapAnalysisData: GapAnalysisData | null;
 }
 
@@ -160,34 +175,36 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
     data: scorecardData
   };
 
-  // Radar Chart: Top Monetizable Skills
-  // Find user skills that appear in ANY earning pathway's required skills
-  const allRequiredSkills = new Set<string>();
-  EARNING_PATHWAYS.forEach(p => p.requiredSkills.forEach(s => allRequiredSkills.add(s)));
-
-  const monetizableSkills = leveledItems.filter(item => {
-    const text = item.text.toLowerCase();
-    return Array.from(allRequiredSkills).some(req => text.includes(req) || req.includes(text));
-  });
-
-  // Remove duplicates, keep highest level
-  const uniqueMonetizableSkills = new Map<string, number>();
-  monetizableSkills.forEach(item => {
-     const key = item.text;
-     if (!uniqueMonetizableSkills.has(key) || uniqueMonetizableSkills.get(key)! < item.level) {
-       uniqueMonetizableSkills.set(key, item.level);
-     }
-  });
-
-  // Limit to top 5-6 for Radar chart legibility
-  const topMonetizable = Array.from(uniqueMonetizableSkills.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
+  // Radar Chart: Skills Proficiency %
+  // Use calculate percentage logic
+  const skillRadarData = profile.Skills.map(skill => {
+    const details = getSkillDetails(skill.value || '', skill.text);
+    const totalItems = details.reduce((acc, grp) => acc + grp.items.length, 0);
+    const score = skill.rawScore || 0;
+    const percentage = totalItems > 0 ? Math.round((score / totalItems) * 100) : 10; // Default small % if no items
+    return { label: skill.text, value: percentage };
+  }).slice(0, 7); // Limit 7
 
   const radarChartData = {
-    labels: topMonetizable.length > 0 ? topMonetizable.map(x => x[0]) : ['General'],
-    data: topMonetizable.length > 0 ? topMonetizable.map(x => x[1]) : [1]
+    labels: skillRadarData.length > 0 ? skillRadarData.map(s => s.label) : ['Skills'],
+    data: skillRadarData.length > 0 ? skillRadarData.map(s => s.value) : [0]
   };
+
+  // Bubble Chart: Hobbies (Strength vs Monetization)
+  const hobbyBubbleData = {
+    datasets: profile.Hobbies.map((hobby, i) => ({
+      label: hobby.text,
+      data: [{
+        x: 50, // Fixed 'Current Strength' (User says they know it) - Could be dynamic if we had user input
+        y: getHobbyPotential(hobby.value || ''),
+        r: 15 + (i * 2) // Radius just to vary size slightly or fixed
+      }],
+      backgroundColor: `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.6)`
+    }))
+  };
+
+  // Interest Tags
+  const interestTags = profile.Interests.map(i => i.text);
 
   // Line Chart: Gap Analysis for #1 Pathway
   let gapAnalysisData: GapAnalysisData | null = null;
@@ -224,6 +241,8 @@ export const analyzeProfile = (profile: UserProfile): AnalysisResult => {
     barChartData,
     pieChartData,
     radarChartData,
+    hobbyBubbleData,
+    interestTags,
     gapAnalysisData
   };
 };
