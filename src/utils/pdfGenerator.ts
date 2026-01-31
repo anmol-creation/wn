@@ -4,8 +4,14 @@ import autoTable from 'jspdf-autotable';
 import type { AnalysisResult, UserProfile } from './analyzer';
 import { getSkillDetails, getSkillLevel } from '../data/skillDetails';
 
+interface jsPDFWithAutoTable extends jsPDF {
+  lastAutoTable: {
+    finalY: number;
+  };
+}
+
 export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
-  const doc = new jsPDF();
+  const doc = new jsPDF() as jsPDFWithAutoTable;
   const pageWidth = doc.internal.pageSize.width;
 
   // --- Title & Branding ---
@@ -45,8 +51,7 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
   });
 
   // --- Skill Detailed Assessment ---
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let nextY = (doc as any).lastAutoTable.finalY + 15;
+  let nextY = doc.lastAutoTable.finalY + 15;
 
   if (profile.Skills.length > 0) {
       doc.setFontSize(16);
@@ -92,21 +97,27 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
         }
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      nextY = (doc as any).lastAutoTable.finalY + 15;
+      nextY = doc.lastAutoTable.finalY + 15;
   }
 
   // --- Hobbies & Monetization ---
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (nextY > 250) { doc.addPage(); nextY = 20; }
 
   if (profile.Hobbies.length > 0) {
     doc.setFontSize(16);
     doc.text('Hobbies & Side Hustle Potential', 14, nextY);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hobbyRows = profile.Hobbies.map(hobby => {
-         return [hobby.text, "Currently a hobby, can be monetized if desired.", "Check freelance/content platforms"];
+         // Check overlap with Skills
+         const isSkill = profile.Skills.some(s => s.text === hobby.text || s.value === hobby.value);
+         const analysis = isSkill
+            ? "High Priority: Skills & Passion Aligned. Monetization Ready."
+            : "Potential Only: Currently a hobby, can be monetized if desired.";
+         const recommendation = isSkill
+            ? "Start freelance or business immediately."
+            : "Explore side hustles or build portfolio.";
+
+         return [hobby.text, analysis, recommendation];
     });
 
     autoTable(doc, {
@@ -117,12 +128,10 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
         headStyles: { fillColor: [243, 156, 18] } // Orange
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    nextY = (doc as any).lastAutoTable.finalY + 15;
+    nextY = doc.lastAutoTable.finalY + 15;
   }
 
   // --- Future Interests ---
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (nextY > 250) { doc.addPage(); nextY = 20; }
 
   if (profile.Interests.length > 0) {
@@ -130,7 +139,13 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
     doc.text('Future Interest Areas', 14, nextY);
 
     const interestRows = profile.Interests.map(int => {
-        return [int.text, "Start with beginner tutorials or online communities."];
+        // Check overlap with Skills
+        const isSkill = profile.Skills.some(s => s.text === int.text || s.value === int.value);
+        const pathway = isSkill
+            ? "Already a Skill: Focus on advanced specialization."
+            : "Start with beginner tutorials or online communities.";
+
+        return [int.text, pathway];
     });
 
     autoTable(doc, {
@@ -141,8 +156,7 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
         headStyles: { fillColor: [22, 160, 133] } // Teal
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    nextY = (doc as any).lastAutoTable.finalY + 15;
+    nextY = doc.lastAutoTable.finalY + 15;
   }
 
   // --- Top Opportunities ---
@@ -172,8 +186,7 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
   });
 
   // --- Action Plan (Top 2) ---
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let currentY = (doc as any).lastAutoTable.finalY + 15;
+  let currentY = doc.lastAutoTable.finalY + 15;
 
   // Check page break
   if (currentY > 250) {

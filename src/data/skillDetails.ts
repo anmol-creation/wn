@@ -35,7 +35,7 @@ export const getSkillLevel = (score: number, totalItems: number, selectedItems: 
 
   // Hybrid Naming Logic
   // Identify if user has selected items from 'Advanced' or 'Expert' categories
-  const advancedKeywords = ['advanced', 'expert', 'complex', 'innovation', 'strategy'];
+  const advancedKeywords = ['advanced', 'expert', 'complex', 'innovation', 'strategy', 'meta & seo', 'security'];
   const advancedItems = new Set<string>();
 
   details.forEach(group => {
@@ -52,8 +52,6 @@ export const getSkillLevel = (score: number, totalItems: number, selectedItems: 
   } else if (level === 2 && hasAdvancedSelection) {
     baseLabel = 'Developing Practitioner';
   } else if (level === 3 && percentage < 76) {
-    // "Advanced but missing expert coverage" - inherently captured by being in level 3 range
-    // but we can give it the specific name if it's high-advanced
     baseLabel = 'Specialist-in-Progress';
   }
 
@@ -65,135 +63,103 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
   'html': [
     {
       category: 'Editors (Tools)',
-      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm']
+      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm', 'Acode (Mobile)', 'Spck Editor', 'Dcoder', 'Quoda']
     },
     {
       category: 'Devices (Environment)',
       items: ['PC/Laptop', 'Mobile Browser', 'Tablet', 'Cross-Browser Testing']
     },
     {
-      category: 'Code (Tags & Syntax)',
-      items: ['<html>', '<head>/<body>', '<div>/<span>', '<form>/<input>', '<table>', 'Semantic Tags (<header>, <footer>)', 'Meta Tags', 'Audio/Video Tags', 'Canvas/SVG', 'Accessibility (ARIA)']
+      category: 'Basic Structure',
+      items: ['<html>', '<head>', '<body>', '<!DOCTYPE html>']
+    },
+    {
+      category: 'Text Formatting',
+      items: ['<h1> to <h6>', '<p>', '<b> / <strong>', '<i> / <em>', '<br>', '<hr>']
+    },
+    {
+      category: 'Media Tags',
+      items: ['<img>', '<audio>', '<video>', '<source>', '<track>']
+    },
+    {
+      category: 'Links & Navigation',
+      items: ['<a>', '<nav>', '<link>', 'target="_blank"']
+    },
+    {
+      category: 'Forms',
+      items: ['<form>', '<input>', '<textarea>', '<button>', '<select>/<option>', '<label>', 'Input Types (text, email, password)']
+    },
+    {
+      category: 'Layout & Semantics',
+      items: ['<div>', '<span>', '<section>', '<article>', '<header>', '<footer>', '<main>', '<aside>']
+    },
+    {
+      category: 'Tables & Lists',
+      items: ['<table>', '<tr>', '<td>', '<th>', '<ul>', '<ol>', '<li>']
+    },
+    {
+      category: 'Meta & SEO',
+      items: ['<meta>', '<title>', 'Meta Description', 'Viewport Settings', 'Favicon']
     }
   ],
   'css': [
     {
       category: 'Tools & Preprocessors',
-      items: ['VS Code', 'Chrome DevTools', 'Sass/SCSS', 'PostCSS', 'Tailwind/Bootstrap']
+      items: ['VS Code', 'Chrome DevTools', 'Sass/SCSS', 'PostCSS', 'Tailwind', 'Bootstrap']
     },
     {
-      category: 'Core Concepts',
-      items: ['Selectors (Class/ID)', 'Box Model', 'Positioning (Absolute/Relative)', 'Flexbox', 'Grid', 'Media Queries (Responsive)', 'Transitions/Animations', 'Variables (Custom Properties)']
+      category: 'Selectors & Specificity',
+      items: ['Class (.)', 'ID (#)', 'Element', 'Group Selectors', 'Descendant Selectors', 'Pseudo-classes (:hover)', 'Pseudo-elements (::before)']
     },
     {
-      category: 'Advanced',
-      items: ['Keyframes', 'Pseudo-classes', 'Pseudo-elements', 'Z-Index Context', 'CSS Modules', 'BEM Naming']
+      category: 'Box Model & Layout',
+      items: ['Margin/Padding', 'Border', 'Width/Height', 'Box-Sizing', 'Display (block/inline)', 'Positioning (absolute/relative)', 'Z-Index']
+    },
+    {
+      category: 'Flexbox & Grid',
+      items: ['justify-content', 'align-items', 'flex-direction', 'flex-wrap', 'grid-template-columns', 'gap', 'grid-area']
+    },
+    {
+      category: 'Typography & Colors',
+      items: ['font-family', 'font-size', 'font-weight', 'line-height', 'color', 'background-color', 'gradients']
+    },
+    {
+      category: 'Responsive Design',
+      items: ['Media Queries (@media)', 'Rem/Em Units', 'Viewport Units (vw/vh)', 'Mobile-First Workflow']
+    },
+    {
+      category: 'Animations & Transitions',
+      items: ['transition', 'transform (scale/rotate)', '@keyframes', 'animation-duration', 'animation-delay']
     }
   ],
   'javascript': [
     {
       category: 'Environment',
-      items: ['Browser Console', 'Node.js', 'VS Code', 'NPM/Yarn']
+      items: ['Browser Console', 'Node.js', 'VS Code', 'NPM/Yarn', 'Dcoder (Mobile)', 'Acode']
     },
     {
-      category: 'Syntax & Basics',
-      items: ['Variables (let/const)', 'Functions (Arrow fns)', 'Loops/Conditionals', 'Arrays/Objects', 'DOM Manipulation', 'Events (click, submit)']
+      category: 'Syntax & Variables',
+      items: ['var/let/const', 'Data Types (String, Number, Boolean)', 'Operators (+, -, *, /)', 'Comments']
     },
     {
-      category: 'Advanced Concepts',
-      items: ['Promises/Async/Await', 'Fetch API / AJAX', 'ES6+ Features', 'Closures', 'This Keyword', 'Local Storage', 'Modules (Import/Export)', 'Error Handling']
-    }
-  ],
-  'react': [
-    {
-      category: 'Core Concepts',
-      items: ['JSX', 'Components (Class/Functional)', 'Props', 'State (useState)', 'Effects (useEffect)', 'Lists & Keys', 'Event Handling']
+      category: 'Control Flow',
+      items: ['if/else', 'switch', 'for loop', 'while loop', 'Ternary Operator']
     },
     {
-      category: 'Advanced & Ecosystem',
-      items: ['Context API', 'Custom Hooks', 'React Router', 'Redux/Zustand', 'Refs', 'Performance Optimization (Memo)', 'Next.js Basics']
+      category: 'Functions',
+      items: ['Function Declaration', 'Arrow Functions', 'Parameters/Arguments', 'Return Statement', 'Scope']
     },
     {
-      category: 'Tools',
-      items: ['Create React App / Vite', 'React DevTools', 'ESLint', 'Jest/Testing Library']
-    }
-  ],
-
-  // --- Data Science ---
-  'python': [
-    {
-      category: 'Environment',
-      items: ['IDLE', 'VS Code', 'PyCharm', 'Jupyter Notebook', 'Anaconda']
+      category: 'Data Structures',
+      items: ['Arrays (push, pop, map, filter)', 'Objects (Keys/Values)', 'JSON Parsing']
     },
     {
-      category: 'Core Syntax',
-      items: ['Variables & Types', 'Lists/Dictionaries/Tuples', 'Loops (for/while)', 'Functions', 'File I/O', 'Exception Handling']
+      category: 'DOM Manipulation',
+      items: ['getElementById', 'querySelector', 'addEventListener', 'innerHTML vs textContent', 'classList (add/remove)']
     },
     {
-      category: 'Libraries & Usage',
-      items: ['NumPy', 'Pandas', 'Matplotlib/Seaborn', 'Requests', 'BeautifulSoup (Scraping)', 'Flask/Django', 'OOP Concepts', 'Virtual Environments']
-    }
-  ],
-
-  // --- Design ---
-  'photoshop': [
-    {
-      category: 'Interface & Tools',
-      items: ['Layers Panel', 'Selection Tools', 'Brush/Pen Tool', 'Crop/Slice', 'Gradient/Paint Bucket', 'Text Tool']
-    },
-    {
-      category: 'Adjustments',
-      items: ['Brightness/Contrast', 'Hue/Saturation', 'Levels/Curves', 'Color Balance', 'Masking']
-    },
-    {
-      category: 'Advanced',
-      items: ['Smart Objects', 'Filters/Effects', 'Actions/Automation', 'Blending Modes', 'Retouching (Healing Brush)', 'RAW Editing']
-    }
-  ],
-  'figma': [
-    {
-      category: 'Basics',
-      items: ['Frames & Groups', 'Vector Networks', 'Text & Styles', 'Constraints', 'Exporting Assets']
-    },
-    {
-      category: 'Prototyping',
-      items: ['Interactions', 'Smart Animate', 'Transitions', 'Device Frames', 'Flows']
-    },
-    {
-      category: 'Advanced Systems',
-      items: ['Auto Layout', 'Components', 'Variants', 'Interactive Components', 'Plugins', 'Team Libraries']
-    }
-  ],
-
-  // --- Marketing ---
-  'seo': [
-    {
-      category: 'On-Page',
-      items: ['Keyword Research', 'Title Tags & Meta Desc', 'Headings (H1-H6)', 'Internal Linking', 'Image Alt Text', 'Content Quality']
-    },
-    {
-      category: 'Off-Page & Tech',
-      items: ['Backlinks', 'Social Signals', 'Site Speed', 'Mobile Friendliness', 'Sitemaps', 'Robots.txt', 'Google Search Console']
-    },
-    {
-      category: 'Tools',
-      items: ['Google Analytics', 'Ahrefs/SEMrush', 'Ubersuggest', 'Yoast SEO']
-    }
-  ],
-
-  // --- Video Editing ---
-  'premiere': [
-    {
-      category: 'Basics',
-      items: ['Importing Footage', 'Timeline Editing', 'Cutting/Trimming', 'Transitions', 'Exporting']
-    },
-    {
-      category: 'Audio & Color',
-      items: ['Audio Levels', 'Noise Reduction', 'Lumetri Color Basics', 'Color Correction']
-    },
-    {
-      category: 'Advanced',
-      items: ['Keyframes', 'Masking', 'Multi-cam Editing', 'Motion Graphics Templates', 'Proxy Workflow']
+      category: 'Async & Advanced',
+      items: ['Promises', 'Async/Await', 'Fetch API', 'Callbacks', 'Local Storage', 'ES6 Modules', 'Error Handling (try/catch)']
     }
   ]
 };

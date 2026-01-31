@@ -11,6 +11,7 @@ import ReactFlow, {
   type Connection,
   addEdge,
   MarkerType,
+  Position,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import type { AnalysisResult, UserProfile } from '../utils/analyzer';
@@ -60,7 +61,7 @@ const CareerMap: React.FC<Props> = ({ profile, results }) => {
           id: nodeId,
           position: { x: inputX, y: inputY },
           data: { label: `${item.text} (${cat})` },
-          sourcePosition: 'right' as any,
+          sourcePosition: Position.Right,
           style: {
             background: getCategoryColor(cat),
             color: '#fff',
@@ -104,7 +105,7 @@ const CareerMap: React.FC<Props> = ({ profile, results }) => {
       id: nodeId,
       position: { x: pathwayX, y: pathwayY },
       data: { label: pathway.title },
-      targetPosition: 'left' as any,
+      targetPosition: Position.Left,
       style: {
         background: '#fff',
         border: '2px solid #10b981',

@@ -28,25 +28,67 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
 
   const currentCategory = CATEGORIES[currentCategoryIndex];
 
+  // Recursive search to find if an option exists in a hierarchy
+  const findOptionInHierarchy = (options: HierarchicalOption[], targetValue: string, targetLabel: string): HierarchicalOption | null => {
+    for (const opt of options) {
+      // Check match by value or label (label fallback for simpler lists)
+      if (opt.value === targetValue || opt.label === targetLabel) return opt;
+      if (opt.subOptions) {
+        const found = findOptionInHierarchy(opt.subOptions, targetValue, targetLabel);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
   // Logic to toggle items
   const toggleItem = (text: string, value?: string, level: number = 1) => {
     setProfile(prev => {
       const currentList = prev[currentCategory];
       const exists = currentList.find(item => item.text === text);
+
+      const newProfile = { ...prev };
+
+      // Removing item
       if (exists) {
-        return {
-          ...prev,
-          [currentCategory]: currentList.filter(item => item.text !== text)
-        };
-      } else {
-        return {
-          ...prev,
-          [currentCategory]: [
-            ...currentList,
-            { id: `${currentCategory}-${text}`, text, level, value }
-          ]
-        };
+        newProfile[currentCategory] = currentList.filter(item => item.text !== text);
+        // Note: We don't auto-remove from other categories to avoid accidental data loss if user intended to keep it as a hobby
       }
+      // Adding item
+      else {
+        newProfile[currentCategory] = [
+          ...currentList,
+          { id: `${currentCategory}-${text}`, text, level, value }
+        ];
+
+        // Auto-Selection Logic: If adding a Skill, check Hobbies and Interests
+        if (currentCategory === 'Skills' && value) {
+          // Check Hobbies
+          const hobbyMatch = findOptionInHierarchy(HOBBY_LEVELS, value, text);
+          if (hobbyMatch) {
+             const hobbyExists = newProfile.Hobbies.some(h => h.text === hobbyMatch.label);
+             if (!hobbyExists) {
+               newProfile.Hobbies = [
+                 ...newProfile.Hobbies,
+                 { id: `Hobbies-${hobbyMatch.label}`, text: hobbyMatch.label, level: 1, value: hobbyMatch.value }
+               ];
+             }
+          }
+
+          // Check Interests
+          const interestMatch = findOptionInHierarchy(INTEREST_LEVELS, value, text);
+          if (interestMatch) {
+             const interestExists = newProfile.Interests.some(i => i.text === interestMatch.label);
+             if (!interestExists) {
+               newProfile.Interests = [
+                 ...newProfile.Interests,
+                 { id: `Interests-${interestMatch.label}`, text: interestMatch.label, level: 1, value: interestMatch.value }
+               ];
+             }
+          }
+        }
+      }
+      return newProfile;
     });
   };
 
@@ -113,38 +155,53 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
     const hasSub = option.subOptions && option.subOptions.length > 0;
     const isExpanded = expandedItems.includes(option.label) || searchTerm.length > 0; // Auto-expand on search
     const selected = isSelected(option.label);
+    const isContainer = option.isContainer;
 
     return (
       <div key={option.value} className={`mb-2 ${depth > 0 ? 'ml-6 border-l-2 border-gray-100 pl-4' : ''}`}>
-        <div className={`
-            flex items-center justify-between p-3 rounded-lg border transition-all
-            ${selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}
-        `}>
-           <label className="flex items-center gap-3 cursor-pointer flex-grow">
-              <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${selected ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}>
-                 {selected && <Check size={14} className="text-white" />}
+        {isContainer ? (
+          <div
+            onClick={() => toggleExpand(option.label)}
+            className="flex items-center justify-between p-3 rounded-lg border border-gray-100 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+          >
+            <span className="text-gray-800 font-semibold">{option.label}</span>
+            {hasSub && (
+              <div className="p-1 text-gray-500">
+                {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </div>
-              <input
-                type="checkbox"
-                className="hidden"
-                checked={selected}
-                onChange={() => toggleItem(option.label, option.value)}
-              />
-              <span className="text-gray-700 font-medium">{option.label}</span>
-           </label>
+            )}
+          </div>
+        ) : (
+          <div className={`
+              flex items-center justify-between p-3 rounded-lg border transition-all
+              ${selected ? 'border-blue-500 bg-blue-50' : 'border-gray-200 bg-white hover:border-blue-300'}
+          `}>
+             <label className="flex items-center gap-3 cursor-pointer flex-grow">
+                <div className={`w-5 h-5 border-2 rounded flex items-center justify-center transition-colors ${selected ? 'bg-blue-600 border-blue-600' : 'border-gray-300'}`}>
+                   {selected && <Check size={14} className="text-white" />}
+                </div>
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={selected}
+                  onChange={() => toggleItem(option.label, option.value)}
+                />
+                <span className="text-gray-700 font-medium">{option.label}</span>
+             </label>
 
-           {hasSub && (
-             <button
-               onClick={(e) => {
-                 e.preventDefault(); // Prevent checkbox toggle
-                 toggleExpand(option.label);
-               }}
-               className="p-1 hover:bg-gray-100 rounded text-gray-500"
-             >
-               {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-             </button>
-           )}
-        </div>
+             {hasSub && (
+               <button
+                 onClick={(e) => {
+                   e.preventDefault(); // Prevent checkbox toggle
+                   toggleExpand(option.label);
+                 }}
+                 className="p-1 hover:bg-gray-100 rounded text-gray-500"
+               >
+                 {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+               </button>
+             )}
+          </div>
+        )}
 
         {/* Render Skill Detail Card if selected and no sub-options */}
         {selected && currentCategory === 'Skills' && !hasSub && (
