@@ -7,17 +7,57 @@ export interface SkillChecklistGroup {
 export type SkillDetail = SkillChecklistGroup[];
 
 export const SCORE_THRESHOLDS = {
-  BEGINNER: 3,     // 0-3
-  INTERMEDIATE: 7, // 4-7
-  ADVANCED: 12,    // 8-12
-  EXPERT: 13       // 13+
+  BEGINNER: 25,
+  INTERMEDIATE: 50,
+  ADVANCED: 75,
+  EXPERT: 100
 };
 
-export const getSkillLevel = (score: number): { level: number, label: string } => {
-  if (score <= SCORE_THRESHOLDS.BEGINNER) return { level: 1, label: 'Beginner' };
-  if (score <= SCORE_THRESHOLDS.INTERMEDIATE) return { level: 2, label: 'Intermediate' };
-  if (score <= SCORE_THRESHOLDS.ADVANCED) return { level: 3, label: 'Advanced' };
-  return { level: 4, label: 'Expert' };
+export const getSkillLevel = (score: number, totalItems: number, selectedItems: string[] = [], details: SkillDetail = []): { level: number, label: string, percentage: number } => {
+  const percentage = totalItems > 0 ? Math.round((score / totalItems) * 100) : 0;
+
+  let baseLabel = 'Beginner';
+  let level = 1;
+
+  if (percentage <= 25) {
+    baseLabel = 'Beginner';
+    level = 1;
+  } else if (percentage <= 50) {
+    baseLabel = 'Intermediate';
+    level = 2;
+  } else if (percentage <= 75) {
+    baseLabel = 'Advanced';
+    level = 3;
+  } else {
+    baseLabel = 'Expert';
+    level = 4;
+  }
+
+  // Hybrid Naming Logic
+  // Identify if user has selected items from 'Advanced' or 'Expert' categories
+  const advancedKeywords = ['advanced', 'expert', 'complex', 'innovation', 'strategy'];
+  const advancedItems = new Set<string>();
+
+  details.forEach(group => {
+    if (advancedKeywords.some(kw => group.category.toLowerCase().includes(kw))) {
+      group.items.forEach(item => advancedItems.add(item));
+    }
+  });
+
+  const hasAdvancedSelection = selectedItems.some(item => advancedItems.has(item));
+
+  // Apply hybrid labels based on base level and advanced selections
+  if (level === 1 && hasAdvancedSelection) {
+    baseLabel = 'Emerging Learner';
+  } else if (level === 2 && hasAdvancedSelection) {
+    baseLabel = 'Developing Practitioner';
+  } else if (level === 3 && percentage < 76) {
+    // "Advanced but missing expert coverage" - inherently captured by being in level 3 range
+    // but we can give it the specific name if it's high-advanced
+    baseLabel = 'Specialist-in-Progress';
+  }
+
+  return { level, label: baseLabel, percentage };
 };
 
 export const SKILL_DETAILS: Record<string, SkillDetail> = {

@@ -15,8 +15,8 @@ import {
   BarElement,
   ArcElement,
 } from 'chart.js';
-import { Radar, Bar, Pie, Line } from 'react-chartjs-2';
-import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap, Map, FileText, LayoutDashboard, Download } from 'lucide-react';
+import { Radar, Bar, Pie, Line, Bubble } from 'react-chartjs-2';
+import { DollarSign, Clock, BarChart as BarChartIcon, PieChart as PieChartIcon, Activity, Zap, Map, FileText, LayoutDashboard, Download, Smile, Tag } from 'lucide-react';
 import CareerMap from './CareerMap';
 import CareerSnapshot from './CareerSnapshot';
 
@@ -41,7 +41,7 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
   const [activeTab, setActiveTab] = useState<'overview' | 'map' | 'snapshot'>('overview');
-  const { topPathways, barChartData, pieChartData, radarChartData, gapAnalysisData } = results;
+  const { topPathways, barChartData, pieChartData, radarChartData, hobbyBubbleData, interestTags, gapAnalysisData } = results;
 
   // Bar Chart Config (Skill Scorecard)
   const barData = {
@@ -94,12 +94,12 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
     maintainAspectRatio: false,
   };
 
-  // Radar Chart Config (Top Monetizable Skills)
+  // Radar Chart Config (Skill Proficiency %)
   const radarData = {
     labels: radarChartData.labels,
     datasets: [
       {
-        label: 'Skill Level',
+        label: 'Proficiency %',
         data: radarChartData.data,
         backgroundColor: 'rgba(16, 185, 129, 0.2)',
         borderColor: 'rgba(16, 185, 129, 1)',
@@ -113,10 +113,39 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
     scales: {
       r: {
         angleLines: {
-          display: false
+          display: true
         },
         suggestedMin: 0,
-        suggestedMax: 4
+        suggestedMax: 100
+      }
+    }
+  };
+
+  // Bubble Chart Config (Hobbies)
+  const bubbleOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        min: 0,
+        max: 100,
+        title: { display: true, text: 'Current Strength' }
+      },
+      y: {
+        min: 0,
+        max: 100,
+        title: { display: true, text: 'Monetization Potential' }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          label: (context: any) => {
+            return `${context.dataset.label}: Potential ${context.raw.y}%`;
+          }
+        }
       }
     }
   };
@@ -242,17 +271,51 @@ const Dashboard: React.FC<Props> = ({ results, profile, onReset }) => {
                 </div>
             </div>
 
-            {/* Radar Chart: Top Monetizable Skills */}
+            {/* Radar Chart: Skill Proficiency */}
             <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
                     <Zap className="text-green-600" size={20} />
-                    Top Monetizable Skills
+                    Skill Proficiency (%)
                 </h3>
                 <div className="flex-grow relative">
                     {radarChartData.labels.length > 0 ? (
                         <Radar data={radarData} options={radarOptions} />
                     ) : (
-                        <div className="h-full flex items-center justify-center text-gray-400">No monetizable skills found.</div>
+                        <div className="h-full flex items-center justify-center text-gray-400">No skills analyzed.</div>
+                    )}
+                </div>
+            </div>
+
+            {/* Bubble Chart: Hobbies */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <Smile className="text-orange-500" size={20} />
+                    Hobby Monetization Potential
+                </h3>
+                <div className="flex-grow relative">
+                    {hobbyBubbleData.datasets.length > 0 ? (
+                        <Bubble data={hobbyBubbleData} options={bubbleOptions} />
+                    ) : (
+                        <div className="h-full flex items-center justify-center text-gray-400">No hobbies selected.</div>
+                    )}
+                </div>
+            </div>
+
+            {/* Tag Cloud: Interests */}
+            <div className="bg-white p-6 rounded-xl shadow-lg h-96 flex flex-col">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-gray-700">
+                    <Tag className="text-teal-500" size={20} />
+                    Future Interest Areas
+                </h3>
+                <div className="flex-grow p-4 flex flex-wrap gap-2 content-start overflow-y-auto">
+                    {interestTags.length > 0 ? (
+                        interestTags.map((tag, i) => (
+                           <span key={i} className="px-3 py-1.5 bg-teal-50 text-teal-700 rounded-lg text-sm font-medium border border-teal-100 hover:bg-teal-100 transition-colors">
+                              {tag}
+                           </span>
+                        ))
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">No interests selected.</div>
                     )}
                 </div>
             </div>

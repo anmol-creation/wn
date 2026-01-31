@@ -16,9 +16,10 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
   // Notify parent whenever selection changes
   useEffect(() => {
     const score = selectedItems.length;
-    const { level } = getSkillLevel(score);
+    const totalItems = details.reduce((acc, group) => acc + group.items.length, 0);
+    const { level } = getSkillLevel(score, totalItems, selectedItems, details);
     onUpdate(score, level, selectedItems);
-  }, [selectedItems, onUpdate]);
+  }, [selectedItems, details, onUpdate]);
 
   const toggleItem = (item: string) => {
     setSelectedItems(prev =>
@@ -27,7 +28,8 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
   };
 
   const currentScore = selectedItems.length;
-  const { label: levelLabel, level: levelNum } = getSkillLevel(currentScore);
+  const totalItems = details.reduce((acc, group) => acc + group.items.length, 0);
+  const { label: levelLabel, level: levelNum, percentage } = getSkillLevel(currentScore, totalItems, selectedItems, details);
 
   const getLevelColor = (level: number) => {
     switch(level) {
@@ -57,7 +59,7 @@ const SkillDetailCard: React.FC<Props> = ({ skillValue, skillLabel, initialSelec
         </h4>
         <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold border ${getLevelColor(levelNum)}`}>
           {getLevelIcon(levelNum)}
-          <span>{levelLabel} ({currentScore} pts)</span>
+          <span>{levelLabel} ({percentage}%)</span>
         </div>
       </div>
 

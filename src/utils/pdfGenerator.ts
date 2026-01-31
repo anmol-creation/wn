@@ -54,11 +54,10 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
       doc.text('Skill Proficiency Assessment', 14, nextY);
 
       const skillRows = profile.Skills.map(skill => {
-          const { label } = getSkillLevel(skill.rawScore || 0);
           const details = getSkillDetails(skill.value || '', skill.text);
           const totalItems = details.reduce((acc, grp) => acc + grp.items.length, 0);
           const score = skill.rawScore || 0;
-          const percentage = totalItems > 0 ? Math.round((score / totalItems) * 100) : 0;
+          const { label, percentage } = getSkillLevel(score, totalItems, skill.details, details);
 
           // Generate visual bar [*****-----]
           const barLength = 10;
@@ -95,6 +94,55 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       nextY = (doc as any).lastAutoTable.finalY + 15;
+  }
+
+  // --- Hobbies & Monetization ---
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (nextY > 250) { doc.addPage(); nextY = 20; }
+
+  if (profile.Hobbies.length > 0) {
+    doc.setFontSize(16);
+    doc.text('Hobbies & Side Hustle Potential', 14, nextY);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const hobbyRows = profile.Hobbies.map(hobby => {
+         return [hobby.text, "Currently a hobby, can be monetized if desired.", "Check freelance/content platforms"];
+    });
+
+    autoTable(doc, {
+        startY: nextY + 5,
+        head: [['Hobby', 'Analysis', 'Recommendation']],
+        body: hobbyRows,
+        theme: 'striped',
+        headStyles: { fillColor: [243, 156, 18] } // Orange
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    nextY = (doc as any).lastAutoTable.finalY + 15;
+  }
+
+  // --- Future Interests ---
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (nextY > 250) { doc.addPage(); nextY = 20; }
+
+  if (profile.Interests.length > 0) {
+    doc.setFontSize(16);
+    doc.text('Future Interest Areas', 14, nextY);
+
+    const interestRows = profile.Interests.map(int => {
+        return [int.text, "Start with beginner tutorials or online communities."];
+    });
+
+    autoTable(doc, {
+        startY: nextY + 5,
+        head: [['Interest', 'Learning Pathway']],
+        body: interestRows,
+        theme: 'striped',
+        headStyles: { fillColor: [22, 160, 133] } // Teal
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    nextY = (doc as any).lastAutoTable.finalY + 15;
   }
 
   // --- Top Opportunities ---
