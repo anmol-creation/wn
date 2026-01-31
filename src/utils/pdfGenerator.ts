@@ -106,7 +106,16 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const hobbyRows = profile.Hobbies.map(hobby => {
-         return [hobby.text, "Currently a hobby, can be monetized if desired.", "Check freelance/content platforms"];
+         // Check overlap with Skills
+         const isSkill = profile.Skills.some(s => s.text === hobby.text || s.value === hobby.value);
+         const analysis = isSkill
+            ? "High Priority: Skills & Passion Aligned. Monetization Ready."
+            : "Potential Only: Currently a hobby, can be monetized if desired.";
+         const recommendation = isSkill
+            ? "Start freelance or business immediately."
+            : "Explore side hustles or build portfolio.";
+
+         return [hobby.text, analysis, recommendation];
     });
 
     autoTable(doc, {
@@ -130,7 +139,13 @@ export const generatePDF = (results: AnalysisResult, profile: UserProfile) => {
     doc.text('Future Interest Areas', 14, nextY);
 
     const interestRows = profile.Interests.map(int => {
-        return [int.text, "Start with beginner tutorials or online communities."];
+        // Check overlap with Skills
+        const isSkill = profile.Skills.some(s => s.text === int.text || s.value === int.value);
+        const pathway = isSkill
+            ? "Already a Skill: Focus on advanced specialization."
+            : "Start with beginner tutorials or online communities.";
+
+        return [int.text, pathway];
     });
 
     autoTable(doc, {

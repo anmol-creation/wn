@@ -2,6 +2,7 @@ export interface HierarchicalOption {
   label: string;
   value: string;
   subOptions?: HierarchicalOption[];
+  isContainer?: boolean; // If true, cannot be selected directly, only used for grouping
 }
 
 // Kept for backward compatibility if any imports exist, but aliased
@@ -11,6 +12,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
   {
     label: 'Below 12th',
     value: 'below_12th',
+    isContainer: true,
     subOptions: [
       { label: '11th Pass', value: '11th_pass' },
       { label: '10th Pass', value: '10th_pass' },
@@ -54,6 +56,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
   {
     label: 'Common Degrees',
     value: 'common_degrees',
+    isContainer: true,
     subOptions: [
       { label: 'Diploma', value: 'diploma' },
       { label: 'Certificate Courses', value: 'certificate' },
@@ -70,10 +73,12 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
   {
     label: 'Main Categories (Fields of Study)',
     value: 'main_categories',
+    isContainer: true,
     subOptions: [
       {
         label: 'Engineering & Technology',
         value: 'engineering',
+        isContainer: true,
         subOptions: [
            { label: 'B.Tech / B.E.', value: 'btech' },
            { label: 'M.Tech / M.E.', value: 'mtech' },
@@ -86,6 +91,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Medical & Health Sciences',
         value: 'medical',
+        isContainer: true,
         subOptions: [
           { label: 'MBBS', value: 'mbbs' },
           { label: 'BDS (Dental)', value: 'bds' },
@@ -97,6 +103,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Commerce & Management',
         value: 'management',
+        isContainer: true,
         subOptions: [
           { label: 'B.Com', value: 'bcom_gen' },
           { label: 'BBA', value: 'bba' },
@@ -109,6 +116,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Arts, Humanities & Social Sciences',
         value: 'humanities',
+        isContainer: true,
         subOptions: [
           { label: 'BA Specializations', value: 'ba_spec' },
           { label: 'Fine Arts (BFA)', value: 'bfa' },
@@ -119,6 +127,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Science',
         value: 'science_field',
+        isContainer: true,
         subOptions: [
           { label: 'B.Sc Specializations', value: 'bsc_spec' },
           { label: 'M.Sc Specializations', value: 'msc_spec' }
@@ -127,6 +136,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Law',
         value: 'law',
+        isContainer: true,
         subOptions: [
           { label: 'LLB', value: 'llb' },
           { label: 'LLM', value: 'llm' },
@@ -136,6 +146,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Education',
         value: 'education_field',
+        isContainer: true,
         subOptions: [
           { label: 'B.Ed', value: 'bed' },
           { label: 'M.Ed', value: 'med' },
@@ -145,6 +156,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Agriculture & Allied',
         value: 'agriculture',
+        isContainer: true,
         subOptions: [
           { label: 'B.Sc Agriculture', value: 'bsc_agri' },
           { label: 'Veterinary Science', value: 'veterinary' },
@@ -155,6 +167,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Design, Fashion & Architecture',
         value: 'design',
+        isContainer: true,
         subOptions: [
           { label: 'B.Arch', value: 'barch' },
           { label: 'B.Des', value: 'bdes' },
@@ -165,6 +178,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Computer Applications & IT',
         value: 'it',
+        isContainer: true,
         subOptions: [
           { label: 'BCA', value: 'bca' },
           { label: 'MCA', value: 'mca' },
@@ -175,6 +189,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Hospitality, Tourism & Culinary',
         value: 'hospitality',
+        isContainer: true,
         subOptions: [
           { label: 'Hotel Management', value: 'hotel_mgmt' },
           { label: 'Travel & Tourism', value: 'tourism' },
@@ -184,6 +199,7 @@ export const EDUCATION_LEVELS: HierarchicalOption[] = [
       {
         label: 'Mass Communication & Media',
         value: 'media',
+        isContainer: true,
         subOptions: [
           { label: 'Journalism', value: 'journalism' },
           { label: 'Mass Communication', value: 'mass_comm' },
@@ -200,10 +216,12 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Digital & Tech Skills',
     value: 'digital_tech',
+    isContainer: true,
     subOptions: [
       {
         label: 'Web Development',
         value: 'web_dev',
+        isContainer: true,
         subOptions: [
           { label: 'HTML', value: 'html' },
           { label: 'CSS', value: 'css' },
@@ -218,6 +236,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
       {
         label: 'App Development',
         value: 'app_dev',
+        isContainer: true,
         subOptions: [
           { label: 'Flutter', value: 'flutter' },
           { label: 'React Native', value: 'react_native' },
@@ -228,6 +247,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
       {
         label: 'Data Science & Analytics',
         value: 'data_science',
+        isContainer: true,
         subOptions: [
           { label: 'Python', value: 'python' },
           { label: 'R', value: 'r_lang' },
@@ -237,11 +257,11 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
           { label: 'Machine Learning', value: 'ml' }
         ]
       },
-      { label: 'Cybersecurity', value: 'cybersecurity', subOptions: [
+      { label: 'Cybersecurity', value: 'cybersecurity', isContainer: true, subOptions: [
           { label: 'Ethical Hacking', value: 'ethical_hacking' },
           { label: 'Network Security', value: 'network_sec' }
       ]},
-      { label: 'Cloud Computing', value: 'cloud', subOptions: [
+      { label: 'Cloud Computing', value: 'cloud', isContainer: true, subOptions: [
           { label: 'AWS', value: 'aws' },
           { label: 'Azure', value: 'azure' },
           { label: 'Google Cloud', value: 'gcp' }
@@ -251,10 +271,12 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Creative & Media Skills',
     value: 'creative_media',
+    isContainer: true,
     subOptions: [
       {
         label: 'Video Editing',
         value: 'video_editing',
+        isContainer: true,
         subOptions: [
           { label: 'Premiere Pro', value: 'premiere' },
           { label: 'Final Cut Pro', value: 'fcp' },
@@ -268,6 +290,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
       {
         label: 'Graphic Design',
         value: 'graphic_design',
+        isContainer: true,
         subOptions: [
           { label: 'Photoshop', value: 'photoshop' },
           { label: 'Illustrator', value: 'illustrator' },
@@ -279,6 +302,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
       {
         label: 'Content Creation',
         value: 'content_creation',
+        isContainer: true,
         subOptions: [
           { label: 'Copywriting', value: 'copywriting' },
           { label: 'Storytelling', value: 'storytelling' },
@@ -286,7 +310,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
           { label: 'Blogging', value: 'blogging' }
         ]
       },
-      { label: 'Animation', value: 'animation', subOptions: [
+      { label: 'Animation', value: 'animation', isContainer: true, subOptions: [
           { label: 'After Effects', value: 'after_effects' },
           { label: 'Blender', value: 'blender' },
           { label: 'Maya', value: 'maya' }
@@ -296,10 +320,12 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Business & Management Skills',
     value: 'business',
+    isContainer: true,
     subOptions: [
       {
         label: 'Marketing',
         value: 'marketing',
+        isContainer: true,
         subOptions: [
           { label: 'SEO', value: 'seo' },
           { label: 'Social Media Marketing', value: 'smm' },
@@ -311,6 +337,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
       {
         label: 'Finance',
         value: 'finance',
+        isContainer: true,
         subOptions: [
           { label: 'Accounting', value: 'accounting' },
           { label: 'Bookkeeping', value: 'bookkeeping' },
@@ -318,7 +345,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
           { label: 'Stock Trading', value: 'trading' }
         ]
       },
-      { label: 'Project Management', value: 'pm', subOptions: [
+      { label: 'Project Management', value: 'pm', isContainer: true, subOptions: [
           { label: 'Agile/Scrum', value: 'agile' },
           { label: 'Jira', value: 'jira' },
           { label: 'Trello', value: 'trello' }
@@ -329,6 +356,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Communication & Language Skills',
     value: 'communication',
+    isContainer: true,
     subOptions: [
       { label: 'Public Speaking', value: 'public_speaking' },
       { label: 'Debating', value: 'debating' },
@@ -340,6 +368,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Technical & Mechanical Skills',
     value: 'technical_mechanical',
+    isContainer: true,
     subOptions: [
       { label: 'Electronics Repair', value: 'electronics_repair' },
       { label: 'Automotive Repair', value: 'auto_repair' },
@@ -351,6 +380,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Education & Academic Skills',
     value: 'academic',
+    isContainer: true,
     subOptions: [
       { label: 'Teaching / Tutoring', value: 'teaching' },
       { label: 'Curriculum Design', value: 'curriculum' },
@@ -361,6 +391,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Health & Wellness Skills',
     value: 'health',
+    isContainer: true,
     subOptions: [
       { label: 'Yoga Instruction', value: 'yoga' },
       { label: 'Personal Training', value: 'personal_training' },
@@ -372,6 +403,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Art, Design & Performance Skills',
     value: 'arts_performance',
+    isContainer: true,
     subOptions: [
       { label: 'Drawing / Sketching', value: 'drawing' },
       { label: 'Painting', value: 'painting' },
@@ -385,6 +417,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Lifestyle & Personal Skills',
     value: 'lifestyle',
+    isContainer: true,
     subOptions: [
       { label: 'Cooking / Culinary Arts', value: 'cooking' },
       { label: 'Baking', value: 'baking' },
@@ -396,6 +429,7 @@ export const SKILL_LEVELS: HierarchicalOption[] = [
   {
     label: 'Agriculture & Allied Skills',
     value: 'agri_skills',
+    isContainer: true,
     subOptions: [
       { label: 'Organic Farming', value: 'organic_farming' },
       { label: 'Animal Husbandry', value: 'animal_husbandry' },
@@ -408,10 +442,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Creative & Artistic Hobbies',
     value: 'creative_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Drawing / Painting',
         value: 'drawing_painting',
+        isContainer: true,
         subOptions: [
           { label: 'Sketching', value: 'sketching' },
           { label: 'Watercolor', value: 'watercolor' },
@@ -422,6 +458,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Crafting / DIY',
         value: 'crafting',
+        isContainer: true,
         subOptions: [
           { label: 'Knitting/Sewing', value: 'knitting' },
           { label: 'Origami', value: 'origami' },
@@ -431,6 +468,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Photography',
         value: 'photography',
+        isContainer: true,
         subOptions: [
           { label: 'Nature Photography', value: 'nature_photo' },
           { label: 'Portrait Photography', value: 'portrait_photo' },
@@ -440,6 +478,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Writing',
         value: 'writing_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Poetry', value: 'poetry' },
           { label: 'Journaling', value: 'journaling' },
@@ -451,10 +490,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Performance & Entertainment Hobbies',
     value: 'performance_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Music',
         value: 'music_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Singing', value: 'singing' },
           { label: 'Guitar', value: 'guitar' },
@@ -466,6 +507,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Dance',
         value: 'dance_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Hip Hop', value: 'hiphop' },
           { label: 'Classical', value: 'classical_dance' },
@@ -475,6 +517,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Acting / Theatre',
         value: 'acting_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Drama', value: 'drama' },
           { label: 'Stand-up Comedy', value: 'comedy' },
@@ -484,6 +527,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Gaming',
         value: 'gaming',
+        isContainer: true,
         subOptions: [
           { label: 'PC Gaming', value: 'pc_gaming' },
           { label: 'Console Gaming', value: 'console_gaming' },
@@ -495,10 +539,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Outdoor & Adventure Hobbies',
     value: 'outdoor_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Traveling',
         value: 'traveling',
+        isContainer: true,
         subOptions: [
           { label: 'Backpacking', value: 'backpacking' },
           { label: 'Road Trips', value: 'road_trips' },
@@ -508,6 +554,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Trekking / Hiking',
         value: 'trekking',
+        isContainer: true,
         subOptions: [
           { label: 'Mountain Trekking', value: 'mountain_trek' },
           { label: 'Forest Hiking', value: 'forest_hike' }
@@ -517,6 +564,7 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
       {
         label: 'Sports',
         value: 'sports_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Cricket', value: 'cricket' },
           { label: 'Football', value: 'football' },
@@ -530,10 +578,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Lifestyle & Leisure Hobbies',
     value: 'lifestyle_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Cooking',
         value: 'cooking_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Baking', value: 'baking' },
           { label: 'Indian Cuisine', value: 'indian_cuisine' },
@@ -549,10 +599,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Technology & Digital Hobbies',
     value: 'tech_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Blogging',
         value: 'blogging_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Personal Blog', value: 'personal_blog' },
           { label: 'Tech Blog', value: 'tech_blog' },
@@ -567,10 +619,12 @@ export const HOBBY_LEVELS: HierarchicalOption[] = [
   {
     label: 'Mind & Wellness Hobbies',
     value: 'wellness_hobbies',
+    isContainer: true,
     subOptions: [
       {
         label: 'Yoga & Meditation',
         value: 'yoga_hobby',
+        isContainer: true,
         subOptions: [
           { label: 'Asanas', value: 'asanas' },
           { label: 'Breathing Exercises', value: 'breathing' },
@@ -588,10 +642,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Academic & Knowledge Interests',
     value: 'academic_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Science',
         value: 'science_interest',
+        isContainer: true,
         subOptions: [
           { label: 'Physics', value: 'physics' },
           { label: 'Chemistry', value: 'chemistry' },
@@ -609,10 +665,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Technology & Innovation Interests',
     value: 'tech_innovation',
+    isContainer: true,
     subOptions: [
       {
         label: 'Computers & IT',
         value: 'computers_it',
+        isContainer: true,
         subOptions: [
           { label: 'AI/ML', value: 'ai_ml' },
           { label: 'Cybersecurity', value: 'cybersec_interest' },
@@ -625,6 +683,7 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
       {
         label: 'Emerging Tech',
         value: 'emerging_tech',
+        isContainer: true,
         subOptions: [
           { label: 'AR/VR', value: 'ar_vr' },
           { label: 'IoT', value: 'iot' }
@@ -635,12 +694,14 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Business & Finance Interests',
     value: 'business_finance',
+    isContainer: true,
     subOptions: [
       { label: 'Entrepreneurship', value: 'entrepreneurship_interest' },
       { label: 'Marketing', value: 'marketing_interest' },
       {
         label: 'Finance',
         value: 'finance_interest',
+        isContainer: true,
         subOptions: [
           { label: 'Stock Market', value: 'stock_market' },
           { label: 'Investments', value: 'investments' },
@@ -654,10 +715,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Creative & Artistic Interests',
     value: 'creative_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Visual Arts',
         value: 'visual_arts',
+        isContainer: true,
         subOptions: [
           { label: 'Photography', value: 'photography_interest' },
           { label: 'Painting', value: 'painting_interest' },
@@ -672,10 +735,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Lifestyle & Personal Interests',
     value: 'lifestyle_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Food',
         value: 'food_interest',
+        isContainer: true,
         subOptions: [
           { label: 'Baking', value: 'baking_interest' },
           { label: 'Indian Cuisine', value: 'indian_cuisine_interest' },
@@ -690,10 +755,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Social & Community Interests',
     value: 'social_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Volunteering',
         value: 'volunteering_interest',
+        isContainer: true,
         subOptions: [
           { label: 'NGOs', value: 'ngos' },
           { label: 'Community Service', value: 'community_service' },
@@ -708,10 +775,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Entertainment & Media Interests',
     value: 'entertainment_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Movies',
         value: 'movies_interest',
+        isContainer: true,
         subOptions: [
           { label: 'Bollywood', value: 'bollywood' },
           { label: 'Hollywood', value: 'hollywood' },
@@ -726,10 +795,12 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
   {
     label: 'Sports & Outdoor Interests',
     value: 'sports_interests',
+    isContainer: true,
     subOptions: [
       {
         label: 'Team Sports',
         value: 'team_sports',
+        isContainer: true,
         subOptions: [
           { label: 'Cricket', value: 'cricket_interest' },
           { label: 'Football', value: 'football_interest' }
@@ -738,6 +809,7 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
       {
         label: 'Individual Sports',
         value: 'individual_sports',
+        isContainer: true,
         subOptions: [
           { label: 'Badminton', value: 'badminton_interest' },
           { label: 'Swimming', value: 'swimming' }
@@ -746,6 +818,7 @@ export const INTEREST_LEVELS: HierarchicalOption[] = [
       {
         label: 'Adventure',
         value: 'adventure_sports',
+        isContainer: true,
         subOptions: [
           { label: 'Trekking', value: 'trekking_interest' }
         ]
