@@ -71,31 +71,31 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
     },
     {
       category: 'Basic Structure',
-      items: ['<html>', '<head>', '<body>', '<!DOCTYPE html>']
+      items: ['<html>', '<head>', '<body>']
     },
     {
       category: 'Text Formatting',
-      items: ['<h1> to <h6>', '<p>', '<b>', '<i>', '<br>', '<hr>', '<strong>', '<em>']
+      items: ['<h1>', '<p>', '<b>', '<i>']
     },
     {
       category: 'Media',
-      items: ['<img>', '<audio>', '<video>', '<source>', '<track>']
+      items: ['<img>', '<audio>', '<video>']
     },
     {
       category: 'Links',
-      items: ['<a>', '<nav>', '<link>', 'target="_blank"']
+      items: ['<a>', '<nav>', '<link>']
     },
     {
       category: 'Forms',
-      items: ['<form>', '<input>', '<textarea>', '<button>', '<select>/<option>', '<label>', 'Input Types (text, email, password)']
+      items: ['<form>', '<input>', '<textarea>']
     },
     {
       category: 'Layout',
-      items: ['<div>', '<span>', '<section>', '<article>', '<header>', '<footer>', '<main>', '<aside>']
+      items: ['<div>', '<span>', '<section>']
     },
     {
       category: 'SEO',
-      items: ['<meta>', '<title>', 'Meta Description', 'Viewport Settings', 'Favicon']
+      items: ['<meta>', '<title>']
     }
   ],
   'css': [
