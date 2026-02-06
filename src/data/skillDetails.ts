@@ -100,8 +100,12 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
   ],
   'css': [
     {
-      category: 'Tools & Preprocessors',
-      items: ['VS Code', 'Chrome DevTools', 'Sass/SCSS', 'PostCSS', 'Tailwind', 'Bootstrap']
+      category: 'Editors (Tools)',
+      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm', 'Acode', 'Spck Editor', 'Dcoder', 'Quoda']
+    },
+    {
+      category: 'Devices (Environment)',
+      items: ['PC/Laptop', 'Mobile Browser', 'Tablet', 'Cross-Browser Testing']
     },
     {
       category: 'Selectors & Specificity',
@@ -130,8 +134,12 @@ export const SKILL_DETAILS: Record<string, SkillDetail> = {
   ],
   'javascript': [
     {
-      category: 'Environment',
-      items: ['Browser Console', 'Node.js', 'VS Code', 'NPM/Yarn', 'Dcoder (Mobile)', 'Acode']
+      category: 'Editors (Tools)',
+      items: ['Notepad', 'VS Code', 'Sublime Text', 'Atom', 'Brackets', 'IntelliJ/WebStorm', 'Acode', 'Spck Editor', 'Dcoder', 'Quoda']
+    },
+    {
+      category: 'Devices (Environment)',
+      items: ['PC/Laptop', 'Mobile Browser', 'Tablet', 'Cross-Browser Testing']
     },
     {
       category: 'Syntax & Variables',
