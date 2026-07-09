@@ -44,6 +44,12 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
 
   // Logic to toggle items
   const toggleItem = (text: string, value?: string, level: number = 1) => {
+    // Single selection logic for Education (Schooling & Higher Secondary)
+    const isSchoolingOrHigherSec = currentCategory === 'Education' &&
+                                   EDUCATION_LEVELS.slice(0, 2).some(group =>
+                                     findOptionInHierarchy([group], value || '', text)
+                                   );
+
     setProfile(prev => {
       const currentList = prev[currentCategory];
       const exists = currentList.find(item => item.text === text);
@@ -53,53 +59,76 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
       // Removing item
       if (exists) {
         newProfile[currentCategory] = currentList.filter(item => item.text !== text);
-        // Note: We don't auto-remove from other categories to avoid accidental data loss if user intended to keep it as a hobby
       }
       // Adding item
       else {
         let newItem = { id: `${currentCategory}-${text}`, text, level, value };
 
-        // Auto-Selection Logic: If adding a Skill, check Hobbies and Interests
-        if (currentCategory === 'Skills' && value) {
-          // 1. Auto-fill details for Skill
-          const detailsDef = getSkillDetails(value, text);
-          const allItems = detailsDef.flatMap(g => g.items);
-          newItem = {
-            ...newItem,
-            // @ts-expect-error - Adding dynamic property
-            details: allItems,
-            rawScore: allItems.length
-          };
+        if (isSchoolingOrHigherSec) {
+          // If it's schooling or higher secondary, we clear any existing education selections
+          newProfile[currentCategory] = [newItem];
+        } else {
+          // Auto-Selection Logic: If adding a Skill, check Hobbies and Interests
+          if (currentCategory === 'Skills' && value) {
+            // 1. Auto-fill details for Skill
+            const detailsDef = getSkillDetails(value, text);
+            const allItems = detailsDef.flatMap(g => g.items);
+            newItem = {
+              ...newItem,
+              // @ts-expect-error - Adding dynamic property
+              details: allItems,
+              rawScore: allItems.length
+            };
 
-          // 2. Check Hobbies
-          const hobbyMatch = findOptionInHierarchy(HOBBY_LEVELS, value, text);
-          if (hobbyMatch) {
-             const hobbyExists = newProfile.Hobbies.some(h => h.text === hobbyMatch.label);
-             if (!hobbyExists) {
-               newProfile.Hobbies = [
-                 ...newProfile.Hobbies,
-                 { id: `Hobbies-${hobbyMatch.label}`, text: hobbyMatch.label, level: 1, value: hobbyMatch.value }
-               ];
-             }
+            // 2. Check Hobbies
+            const hobbyMatch = findOptionInHierarchy(HOBBY_LEVELS, value, text);
+            if (hobbyMatch) {
+               const hobbyExists = newProfile.Hobbies.some(h => h.text === hobbyMatch.label);
+               if (!hobbyExists) {
+                 newProfile.Hobbies = [
+                   ...newProfile.Hobbies,
+                   { id: `Hobbies-${hobbyMatch.label}`, text: hobbyMatch.label, level: 1, value: hobbyMatch.value }
+                 ];
+               }
+            }
+
+            // Check Interests
+            const interestMatch = findOptionInHierarchy(INTEREST_LEVELS, value, text);
+            if (interestMatch) {
+               const interestExists = newProfile.Interests.some(i => i.text === interestMatch.label);
+               if (!interestExists) {
+                 newProfile.Interests = [
+                   ...newProfile.Interests,
+                   { id: `Interests-${interestMatch.label}`, text: interestMatch.label, level: 1, value: interestMatch.value }
+                 ];
+               }
+            }
           }
 
-          // Check Interests
-          const interestMatch = findOptionInHierarchy(INTEREST_LEVELS, value, text);
-          if (interestMatch) {
-             const interestExists = newProfile.Interests.some(i => i.text === interestMatch.label);
-             if (!interestExists) {
-               newProfile.Interests = [
-                 ...newProfile.Interests,
-                 { id: `Interests-${interestMatch.label}`, text: interestMatch.label, level: 1, value: interestMatch.value }
-               ];
-             }
+          // Clear previously selected schooling if they select higher education
+          const hasSchooling = currentList.some(item =>
+            EDUCATION_LEVELS.slice(0, 2).some(group =>
+              findOptionInHierarchy([group], item.value || '', item.text)
+            )
+          );
+
+          if (hasSchooling && currentCategory === 'Education') {
+             newProfile[currentCategory] = [newItem];
+          } else {
+             newProfile[currentCategory] = [...currentList, newItem];
           }
         }
-
-        newProfile[currentCategory] = [...currentList, newItem];
       }
+
       return newProfile;
     });
+
+    const currentlyExists = profile[currentCategory].some(item => item.text === text);
+    if (!currentlyExists && isSchoolingOrHigherSec) {
+       setTimeout(() => {
+         handleNext();
+       }, 400); // 400ms delay for better UX
+    }
   };
 
   const updateSkillDetails = (text: string, score: number, level: number, details: string[]) => {
@@ -391,7 +420,12 @@ const InputForm: React.FC<Props> = ({ onAnalyze }) => {
 
         <button
           onClick={handleNext}
-          className="flex items-center gap-2 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg font-medium"
+          disabled={profile[currentCategory].length === 0}
+          className={`flex items-center gap-2 px-8 py-3 rounded-lg shadow-lg font-medium transition-colors ${
+            profile[currentCategory].length === 0
+              ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none'
+              : 'bg-blue-600 text-white hover:bg-blue-700'
+          }`}
         >
           {currentCategoryIndex === CATEGORIES.length - 1 ? 'Analyze Profile' : 'Next Step'}
           <ArrowRight size={20} />
